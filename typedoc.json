@@ -1,0 +1,9 @@
+{
+	"cleanOutputDir": false,
+	"cname": "iterables.vangware.com",
+	"customCss": "./node_modules/@vangware/configs/typedoc.css",
+	"entryPoints": ["./src/asynchronous/index.ts", "./src/index.ts"],
+	"gitRevision": "main",
+	"hideGenerator": true,
+	"logLevel": "Warn"
+}
