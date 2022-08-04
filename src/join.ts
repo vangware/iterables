@@ -19,9 +19,9 @@ export const join =
 	<Item>(iterable: Iterable<Item>) =>
 		isArray(iterable)
 			? iterable.join(separator)
-			: reduce(
+			: reduce<Item, string | undefined>(
 					(item: Item) => (string: string | undefined) =>
 						`${
 							string === undefined ? "" : `${string}${separator}`
 						}${item as Item & string}`,
-			  )(undefined as unknown as string)(iterable); // Nasty but necessary
+			  )(undefined)(iterable) ?? "";
