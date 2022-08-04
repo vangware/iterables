@@ -18,4 +18,16 @@ export default [
 		received: spaceJoin(iterateArray(array)),
 		wanted: "0 1 2 3",
 	},
+	{
+		given: "an empty array",
+		must: "return empty string",
+		received: spaceJoin([]),
+		wanted: "",
+	},
+	{
+		given: "an empty iterable",
+		must: "return empty string",
+		received: spaceJoin(iterateArray([])),
+		wanted: "",
+	},
 ] as Tests<string>;
