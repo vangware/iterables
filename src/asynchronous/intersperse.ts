@@ -30,7 +30,7 @@ export const intersperse = <Separator>(separator: Separator) =>
 				yield separator;
 			}
 
-			// eslint-disable-next-line functional/immutable-data
+			// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
 			Object.assign(item, next);
 		}
 	};

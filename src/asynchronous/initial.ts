@@ -35,7 +35,7 @@ export const initial = async function* <
 				: AsynchronousIterableItem<Input>;
 		}
 
-		// eslint-disable-next-line functional/immutable-data
+		// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
 		Object.assign(item, next);
 	}
 };

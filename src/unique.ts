@@ -17,6 +17,7 @@ export const unique = function* <Item>(iterable: Iterable<Item>) {
 	for (const item of iterable) {
 		// eslint-disable-next-line functional/no-conditional-statement
 		if (!set.has(item)) {
+			// eslint-disable-next-line functional/no-expression-statement
 			set.add(item);
 			yield item;
 		}

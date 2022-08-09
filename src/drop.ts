@@ -24,6 +24,7 @@ export const drop = (amount: bigint | number) =>
 				if (count >= amount) {
 					yield item;
 				} else {
+					// eslint-disable-next-line functional/no-expression-statement
 					count += 1n;
 				}
 			}

@@ -23,6 +23,7 @@ export const take = (amount: bigint | number) =>
 			// eslint-disable-next-line functional/no-conditional-statement
 			if (count < amount) {
 				yield item;
+				// eslint-disable-next-line functional/no-expression-statement
 				count += 1n;
 			}
 		}

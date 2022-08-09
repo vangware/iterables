@@ -21,6 +21,7 @@ export const join =
 
 		// eslint-disable-next-line functional/no-loop-statement
 		for await (const item of iterable) {
+			// eslint-disable-next-line functional/no-expression-statement
 			string += `${item as unknown as string}${separator}`;
 		}
 
