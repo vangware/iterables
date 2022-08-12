@@ -1,18 +1,53 @@
+import { isAsyncIterable } from "@vangware/predicates";
+import type {
+	AsynchronousIterable,
+	AsynchronousIterableItem,
+} from "@vangware/types";
+import { createIterableIterator } from "./createIterableIterator.js";
+
 /**
- * Appends iterables.
+ * Appends one iterable or asynchronous iterable to another.
  *
  * @category Generators
- * @category Reducers
  * @example
  * ```typescript
  * const appendNumbers = append([0, 1, 2, 3, 4]);
+ *
  * appendNumbers(["foo", "bar"]); // ["foo", "bar", 0, 1, 2, 3, 4]
+ * appendNumbers([]); // [0, 1, 2, 3, 4]
  * ```
- * @param tailIterable Iterable to be appended.
+ * @param tailIterable Iterable or asynchronous to be appended.
  * @returns Curried generator function with `tailIterable` set in context.
  */
-export const append = <TailItem>(tailIterable: Iterable<TailItem>) =>
-	function* <InitialItem>(initialIterable: Iterable<InitialItem>) {
-		yield* initialIterable;
-		yield* tailIterable;
-	};
+export const append = <TailIterable extends AsynchronousIterable>(
+	tailIterable: TailIterable,
+) => {
+	const tailIsAsyncIterable = isAsyncIterable(tailIterable);
+
+	return <InitialIterable extends AsynchronousIterable>(
+		initialIterable: InitialIterable,
+	) =>
+		createIterableIterator(
+			tailIsAsyncIterable || isAsyncIterable(initialIterable)
+				? (async function* () {
+						yield* initialIterable;
+						yield* tailIterable;
+				  } as () => AsyncGenerator<
+						AsynchronousIterableItem<InitialIterable | TailIterable>
+				  >)
+				: (function* () {
+						yield* initialIterable;
+						yield* tailIterable;
+				  } as () => Generator<
+						Iterable<InitialIterable | TailIterable>
+				  >),
+		) as TailIterable extends AsynchronousIterable<infer TailItem>
+			? InitialIterable extends AsynchronousIterable<infer InitialItem>
+				? TailIterable extends AsyncIterable<TailItem>
+					? AsyncIterableIterator<InitialItem | TailItem>
+					: InitialIterable extends AsyncIterable<InitialItem>
+					? AsyncIterableIterator<InitialItem | TailItem>
+					: IterableIterator<InitialItem | TailItem>
+				: never
+			: never;
+};

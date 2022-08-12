@@ -1,5 +1,6 @@
 export { append } from "./append.js";
 export { count } from "./count.js";
+export { createIterableIterator } from "./createIterableIterator.js";
 export { drop } from "./drop.js";
 export { entriesToObject } from "./entriesToObject.js";
 export { every } from "./every.js";
@@ -25,5 +26,8 @@ export { repeat } from "./repeat.js";
 export { some } from "./some.js";
 export { take } from "./take.js";
 export { toIterable } from "./toIterable.js";
+export type { AsynchronousGeneratorFunction } from "./types/AsynchronousGeneratorFunction.js";
+export type { GeneratorOutput } from "./types/GeneratorOutput.js";
+export type { ReducerOutput } from "./types/ReducerOutput.js";
 export { unique } from "./unique.js";
 export { zip } from "./zip.js";

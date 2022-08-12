@@ -1,9 +1,9 @@
 import type { Tests } from "@vangware/test";
 import type { ReadOnlyArray } from "@vangware/types";
-import { drop } from "../src/drop.js";
 import { intersperse } from "../src/intersperse.js";
 import { iterableToArray } from "../src/iterableToArray.js";
 import { range } from "../src/range.js";
+import { asyncIterateArray, iterateArray } from "./utils.js";
 
 const array = [0, 1, 2];
 const commaIntersperse = intersperse(",");
@@ -23,14 +23,20 @@ export default [
 	},
 	{
 		given: "an empty array",
-		must: "return empty array",
+		must: "return empty iterable",
 		received: iterableToArray(commaIntersperse([])),
 		wanted: [],
 	},
 	{
 		given: "an empty iterable",
-		must: "return empty array",
-		received: iterableToArray(commaIntersperse(drop(Infinity)(array))),
+		must: "return empty iterable",
+		received: iterableToArray(commaIntersperse(iterateArray([]))),
+		wanted: [],
+	},
+	{
+		given: "an empty async iterable",
+		must: "return empty iterable",
+		received: iterableToArray(commaIntersperse(asyncIterateArray([]))),
 		wanted: [],
 	},
 ] as Tests<ReadOnlyArray<number | string>>;

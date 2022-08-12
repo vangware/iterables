@@ -1,7 +1,7 @@
 import type { Tests } from "@vangware/test";
-import { drop } from "../src/drop.js";
 import { length } from "../src/length.js";
 import { range } from "../src/range.js";
+import { asyncIterateArray, iterateArray } from "./utils.js";
 
 const array = [0, 1, 2];
 
@@ -27,7 +27,13 @@ export default [
 	{
 		given: "an empty iterable",
 		must: "return 0",
-		received: length(drop(Infinity)(array)),
+		received: length(iterateArray([])),
+		wanted: 0,
+	},
+	{
+		given: "an empty async iterable",
+		must: "return 0",
+		received: length(asyncIterateArray([])),
 		wanted: 0,
 	},
 ] as Tests<number>;

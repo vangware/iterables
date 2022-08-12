@@ -1,15 +1,16 @@
-import { isArray } from "@vangware/predicates";
 import type {
-	AsynchronousIterableItem,
+	AsynchronousIterable,
 	Head,
 	ReadOnlyArray,
 } from "@vangware/types";
 import { getIterator } from "./getIterator.js";
+import { maybePromiseHandler } from "./maybePromiseHandler.js";
+import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
- * Get first element of an iterable.
+ * Get first element of an iterable or asynchronous iterable (`undefined` if
+ * it is empty).
  *
- * @category Filters
  * @category Reducers
  * @example
  * ```typescript
@@ -18,11 +19,11 @@ import { getIterator } from "./getIterator.js";
  * @param iterable Iterable to get the first element from.
  * @returns First element of the iterable (`undefined` if empty).
  */
-export const head = <Input extends Iterable<unknown> | ReadOnlyArray>(
-	iterable: Input,
+export const head = <Iterable extends AsynchronousIterable>(
+	iterable: Iterable,
 ) =>
-	(isArray(iterable)
-		? iterable[0]
-		: getIterator(iterable).next().value) as Input extends ReadOnlyArray
-		? Head<Input>
-		: AsynchronousIterableItem<Input>;
+	maybePromiseHandler(({ value }: IteratorResult<unknown, unknown>) => value)(
+		getIterator(iterable).next(),
+	) as Iterable extends ReadOnlyArray
+		? Head<Iterable>
+		: GeneratorOutput<Iterable>;

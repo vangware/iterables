@@ -1,9 +1,12 @@
-import { isArray } from "@vangware/predicates";
+import { is } from "@vangware/predicates";
+import type { AsynchronousIterable } from "@vangware/types";
+import { some } from "./some.js";
+import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
- * Tries to find the given `searchItem` in iterable.
+ * Tries to find the given `searchItem` in iterable or asynchronous iterable.
  *
- * @category Validators
+ * @category Reducers
  * @example
  * ```
  * const includesTwo = includes(2);
@@ -11,24 +14,10 @@ import { isArray } from "@vangware/predicates";
  * includesTwo([1, 3, 5, 7]); // false
  * ```
  * @param searchItem Item to search.
- * @returns Curried function with `predicate` set in context.
+ * @returns Curried function with `searchItem` set in context.
  */
-export const includes =
-	<SearchItem>(searchItem: SearchItem) =>
-	<Item extends SearchItem>(iterable: Iterable<Item>) => {
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (isArray(iterable)) {
-			// Using `Array.prototype.some` instead of `Array.prototype.includes` so the comparison is made using `Object.is`
-			return iterable.some(item => Object.is(searchItem, item));
-		} else {
-			// eslint-disable-next-line functional/no-loop-statement
-			for (const item of iterable) {
-				// eslint-disable-next-line functional/no-conditional-statement
-				if (Object.is(searchItem, item)) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-	};
+export const includes = <SearchItem>(searchItem: SearchItem) =>
+	// FIXME: Looks like we need HKT for this -_-
+	some(is(searchItem)) as <Iterable extends AsynchronousIterable>(
+		iterable: Iterable,
+	) => ReducerOutput<Iterable, boolean>;

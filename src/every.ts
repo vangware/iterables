@@ -1,11 +1,12 @@
-import { isArray } from "@vangware/predicates";
-import type { Predicate } from "@vangware/types";
+import { isIterable } from "@vangware/predicates";
+import type { AsynchronousIterable, Predicate } from "@vangware/types";
+import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
- * Evaluates items in an iterable against a predicate and returns `true` if
- * all items evaluates to `true`.
+ * Evaluates items in an iterable or asynchronous iterable against a predicate
+ * and returns `true` if all items evaluates to `true`.
  *
- * @category Validators
+ * @category Reducers
  * @example
  * ```typescript
  * const everyEven = every((number: number) => number % 2 === 0);
@@ -16,20 +17,30 @@ import type { Predicate } from "@vangware/types";
  * @returns Curried function with `predicate` set in context.
  */
 export const every =
-	<Item, Predicated extends Item>(predicate: Predicate<Item, Predicated>) =>
-	(iterable: Iterable<Item>) => {
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (isArray(iterable)) {
-			return iterable.every(item => predicate(item));
-		} else {
-			// eslint-disable-next-line functional/no-loop-statement
-			for (const item of iterable) {
-				// eslint-disable-next-line functional/no-conditional-statement
-				if (!predicate(item)) {
-					return false;
-				}
-			}
+	<Item, Predicated extends Item = Item>(
+		predicate: Predicate<Item, Predicated>,
+	) =>
+	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+		(isIterable(iterable)
+			? () => {
+					// eslint-disable-next-line functional/no-loop-statement
+					for (const item of iterable) {
+						// eslint-disable-next-line functional/no-conditional-statement
+						if (!predicate(item)) {
+							return false;
+						}
+					}
 
-			return true;
-		}
-	};
+					return true;
+			  }
+			: async () => {
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+					for await (const item of iterable as AsyncIterable<Item>) {
+						// eslint-disable-next-line functional/no-conditional-statement
+						if (!predicate(item)) {
+							return false;
+						}
+					}
+
+					return true;
+			  })() as ReducerOutput<Iterable, boolean>;

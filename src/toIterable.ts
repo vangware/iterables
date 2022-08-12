@@ -1,9 +1,14 @@
-import { isAsynchronousIterable } from "@vangware/predicates";
+import {
+	hasAsyncIteratorSymbol,
+	isIterable,
+	isObject,
+} from "@vangware/predicates";
+import type { AsynchronousIterable } from "@vangware/types";
+import { createIterableIterator } from "./createIterableIterator.js";
 
 /**
- * Takes a value and returns an iterable that yields that value.
+ * Takes a value, iterable or asynchronous iterable and yields it.
  *
- * @category Common
  * @category Generators
  * @example
  * ```typescript
@@ -12,14 +17,23 @@ import { isAsynchronousIterable } from "@vangware/predicates";
  * iterator.next(); // { value: 1, done: false }
  * iterator.next(); // { value: undefined, done: true }
  * ```
- * @yields Yielded value.
- * @param item Item or iterable to yield.
+ * @param valueOrIterable Vale or iterable to yield.
+ * @returns Yielded item or iterable.
  */
-export const toIterable = function* <Item>(item: Item | Iterable<Item>) {
-	// eslint-disable-next-line functional/no-conditional-statement
-	if (isAsynchronousIterable(item)) {
-		yield* item;
-	} else {
-		yield item;
-	}
-};
+export const toIterable = <ValueOrIterable>(valueOrIterable: ValueOrIterable) =>
+	createIterableIterator(
+		isObject(valueOrIterable) && hasAsyncIteratorSymbol(valueOrIterable)
+			? async function* () {
+					yield* valueOrIterable as AsyncIterable<unknown>;
+			  }
+			: function* () {
+					// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+					isIterable(valueOrIterable)
+						? yield* valueOrIterable
+						: yield valueOrIterable;
+			  },
+	) as ValueOrIterable extends AsynchronousIterable<infer Item>
+		? Item extends AsyncIterable<Item>
+			? AsyncIterableIterator<Item>
+			: IterableIterator<Item>
+		: Iterable<ValueOrIterable>;

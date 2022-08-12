@@ -1,7 +1,11 @@
+import { isIterable } from "@vangware/predicates";
+import type { AsynchronousIterable } from "@vangware/types";
+import { createIterableIterator } from "./createIterableIterator.js";
+import type { GeneratorOutput } from "./types/GeneratorOutput.js";
+
 /**
- * Take the given amount of items from the iterable.
+ * Take the given amount of items from the iterable or asynchronous iterable.
  *
- * @category Filters
  * @category Generators
  * @example
  * ```typescript
@@ -11,18 +15,37 @@
  * @param amount Amount of items to take.
  * @returns Curried function with `amount` in context.
  */
-export const take = (amount: bigint | number) =>
-	function* <Item>(iterable: Iterable<Item>) {
-		// eslint-disable-next-line functional/no-let
-		let count = 0n;
+export const take =
+	(amount: bigint | number) =>
+	<Iterable extends AsynchronousIterable>(iterable: Iterable) =>
+		createIterableIterator(
+			isIterable(iterable)
+				? function* () {
+						// eslint-disable-next-line functional/no-let
+						let count = 0n;
 
-		// eslint-disable-next-line functional/no-loop-statement
-		for (const item of iterable) {
-			// eslint-disable-next-line functional/no-conditional-statement
-			if (count < amount) {
-				yield item;
-				// eslint-disable-next-line functional/no-expression-statement
-				count += 1n;
-			}
-		}
-	};
+						// eslint-disable-next-line functional/no-loop-statement
+						for (const item of iterable) {
+							// eslint-disable-next-line functional/no-conditional-statement
+							if (count < amount) {
+								yield item;
+								// eslint-disable-next-line functional/no-expression-statement
+								count += 1n;
+							}
+						}
+				  }
+				: async function* () {
+						// eslint-disable-next-line functional/no-let
+						let count = 0n;
+
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+						for await (const item of iterable as AsyncIterable<unknown>) {
+							// eslint-disable-next-line functional/no-conditional-statement
+							if (count < amount) {
+								yield item;
+								// eslint-disable-next-line functional/no-expression-statement
+								count += 1n;
+							}
+						}
+				  },
+		) as GeneratorOutput<Iterable>;

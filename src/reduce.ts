@@ -1,14 +1,15 @@
-import { isArray } from "@vangware/predicates";
-import type { Reducer } from "@vangware/types";
+import type { AsynchronousIterable, Reducer } from "@vangware/types";
 import { forEach } from "./forEach.js";
+import { maybePromiseHandler } from "./maybePromiseHandler.js";
+import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
- * Reducer/Folder for iterables.
+ * Reducer function for iterables and asynchronous iterables.
  *
  * @category Reducers
  * @example
  * ```
- * const sum = reduce<number>(item => total => total + item);
+ * const sum = Accumulator<number>(item => total => total + item);
  * const sumFrom0 = sum(0);
  *
  * sumFrom0([1, 2, 3]); // 6
@@ -17,23 +18,15 @@ import { forEach } from "./forEach.js";
  * @returns Curried function with `reducer` in context.
  */
 export const reduce =
-	<Item, Accumulator = Item>(reducer: Reducer<Item, Accumulator>) =>
+	<Item, Accumulator>(reducer: Reducer<Item, Accumulator>) =>
 	(initialValue: Accumulator) =>
-	(iterable: Iterable<Item>): Accumulator => {
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (isArray(iterable)) {
-			return iterable.reduce(
-				(accumulator, item) => reducer(item)(accumulator),
-				initialValue,
-			);
-		} else {
-			// eslint-disable-next-line functional/no-let
-			let accumulator: Accumulator = initialValue;
+	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) => {
+		// eslint-disable-next-line functional/no-let
+		let accumulator: Accumulator = initialValue;
 
+		return maybePromiseHandler(_ => accumulator)(
 			forEach((item: Item) => (accumulator = reducer(item)(accumulator)))(
 				iterable,
-			);
-
-			return accumulator;
-		}
+			),
+		) as ReducerOutput<Iterable, Accumulator>;
 	};

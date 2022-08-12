@@ -1,6 +1,6 @@
 import type { Tests } from "@vangware/test";
 import { getIterator } from "../src/getIterator.js";
-import { asyncIterateArray } from "./asynchronous/asyncIterateArray.js";
+import { asyncIterateArray } from "./utils.js";
 
 const array = [0, 1, 2];
 
