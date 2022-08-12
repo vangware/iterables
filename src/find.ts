@@ -1,9 +1,10 @@
-import { isArray } from "@vangware/predicates";
-import type { Predicate } from "@vangware/types";
+import { isIterable } from "@vangware/predicates";
+import type { AsynchronousIterable, Maybe, Unary } from "@vangware/types";
+import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
- * Returns the value of the first item in the iterable where predicate is `true`,
- * and `undefined` otherwise.
+ * Returns the value of the first item in the iterable or asynchronous iterable
+ * where predicate is `true`, `undefined` otherwise.
  *
  * @category Reducers
  * @example
@@ -16,20 +17,28 @@ import type { Predicate } from "@vangware/types";
  * @returns Curried function with `predicate` set in context.
  */
 export const find =
-	<Item, Predicated extends Item>(predicate: Predicate<Item, Predicated>) =>
-	(iterable: Iterable<Item>) => {
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (isArray(iterable)) {
-			return iterable.find(item => predicate(item));
-		} else {
-			// eslint-disable-next-line functional/no-loop-statement
-			for (const item of iterable) {
-				// eslint-disable-next-line functional/no-conditional-statement
-				if (predicate(item)) {
-					return item;
-				}
-			}
+	<Item>(predicate: Unary<Item, boolean>) =>
+	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+		(isIterable(iterable)
+			? () => {
+					// eslint-disable-next-line functional/no-loop-statement
+					for (const item of iterable) {
+						// eslint-disable-next-line functional/no-conditional-statement
+						if (predicate(item)) {
+							return item;
+						}
+					}
 
-			return undefined;
-		}
-	};
+					return undefined;
+			  }
+			: async () => {
+					// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+					for await (const item of iterable as AsyncIterable<Item>) {
+						// eslint-disable-next-line functional/no-conditional-statement
+						if (predicate(item)) {
+							return item;
+						}
+					}
+
+					return undefined;
+			  })() as ReducerOutput<Iterable, Maybe<Item>>;

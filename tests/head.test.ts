@@ -1,7 +1,9 @@
 import type { Tests } from "@vangware/test";
+import type { Maybe } from "@vangware/types";
 import { drop } from "../src/drop.js";
 import { head } from "../src/head.js";
 import { range } from "../src/range.js";
+import { asyncIterateArray } from "./utils.js";
 
 const array = [0, 1, 2];
 
@@ -30,4 +32,17 @@ export default [
 		received: head(drop(Infinity)(array)),
 		wanted: undefined,
 	},
-] as Tests<number | undefined>;
+
+	{
+		given: "an iterable with numbers",
+		must: "return a promise with the first element",
+		received: head(asyncIterateArray([0, 1, 2])),
+		wanted: 0,
+	},
+	{
+		given: "an empty iterable",
+		must: "return undefined",
+		received: head(asyncIterateArray([])),
+		wanted: undefined,
+	},
+] as Tests<Maybe<number>>;

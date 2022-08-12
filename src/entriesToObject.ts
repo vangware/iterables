@@ -1,9 +1,16 @@
-import { isArray } from "@vangware/predicates";
-import type { Entry, ReadOnlyRecord } from "@vangware/types";
+import type {
+	AsynchronousIterable,
+	AsynchronousIterableItem,
+	Entry,
+	EntryKey,
+	EntryValue,
+	ReadOnlyRecord,
+} from "@vangware/types";
 import { reduce } from "./reduce.js";
+import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
- * Takes an entries iterable and returns an object.
+ * Takes an entries iterable or asynchronous iterable and returns an object.
  *
  * @category Reducers
  * @example
@@ -16,20 +23,16 @@ import { reduce } from "./reduce.js";
  * ```
  * @returns Object constructed from entries.
  */
-export const entriesToObject = <Key extends PropertyKey, Value>(
-	iterable: Iterable<Entry<Key, Value>>,
-) =>
-	isArray(iterable)
-		? (Object.assign(
-				// eslint-disable-next-line no-null/no-null
-				Object.create(null) as ReadOnlyRecord<Value, Key>,
-				Object.fromEntries(iterable),
-		  ) as ReadOnlyRecord<Value, Key>)
-		: reduce(
-				([key, value]: Entry<Key, Value>) =>
-					(object: ReadOnlyRecord<Value, Key>) => ({
-						...object,
-						[key]: value,
-					}),
-				// eslint-disable-next-line no-null/no-null
-		  )(Object.create(null) as ReadOnlyRecord<Value, Key>)(iterable);
+export const entriesToObject = reduce(
+	<Key extends PropertyKey, Value>([key, value]: Entry<Key, Value>) =>
+		(object: ReadOnlyRecord<Value, Key>) =>
+			({ ...object, [key]: value } as ReadOnlyRecord<Value, Key>),
+)({}) as <Iterable extends AsynchronousIterable<Entry>>(
+	iterable: Iterable,
+) => ReducerOutput<
+	Iterable,
+	ReadOnlyRecord<
+		EntryValue<AsynchronousIterableItem<Iterable>>,
+		EntryKey<AsynchronousIterableItem<Iterable>>
+	>
+>;
