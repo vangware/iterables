@@ -1,9 +1,14 @@
-import type { ReadOnlyArray, ReadOnlyRecord, Unary } from "@vangware/types";
+import type {
+	Maybe,
+	ReadOnlyArray,
+	ReadOnlyRecord,
+	Unary,
+} from "@vangware/types";
 import { reduce } from "./reduce.js";
 
 /**
- * Groups values in a iterable in an object based on the output of the `grouper`
- * function.
+ * Groups values of an iterable or asynchronous iterable in an object based on
+ * the output of the `grouper` function.
  *
  * @category Reducers
  * @example
@@ -20,10 +25,9 @@ export const groupBy = <Item, Key extends PropertyKey>(
 	reduce((item: Item) => {
 		const group = grouper(item);
 
-		return (groups: ReadOnlyRecord<ReadOnlyArray<Item> | undefined, Key>) =>
+		return (groups: ReadOnlyRecord<Maybe<ReadOnlyArray<Item>>, Key>) =>
 			({
 				...groups,
 				[group]: [...(groups[group] ?? []), item],
 			} as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
-		// eslint-disable-next-line no-null/no-null
-	})(Object.create(null) as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
+	})({} as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);

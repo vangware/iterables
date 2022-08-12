@@ -1,40 +1,67 @@
+import { isIterable } from "@vangware/predicates";
 import type {
-	AsynchronousIterableItem,
+	AsynchronousIterable,
 	Initial,
 	ReadOnlyArray,
 } from "@vangware/types";
+import { createIterableIterator } from "./createIterableIterator.js";
 import { getIterator } from "./getIterator.js";
+import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
- * Get all elements except the last one of an iterable.
+ * Get all elements except the last one of an iterable or asynchronous iterable.
  *
- * @category Filters
  * @category Generators
  * @example
  * ```typescript
  * initial([1, 2, 3]); // [1, 2]
  * ```
  * @param iterable Iterable to get the items from.
- * @yields Items of the iterable (excluding the last one).
+ * @returns Iterable with all items except the last one.
  */
-export const initial = function* <
-	Input extends Iterable<unknown> | ReadOnlyArray,
->(iterable: Input) {
-	const iterator = getIterator(iterable);
-	const item = { done: false, ...iterator.next() };
+export const initial = <Iterable extends AsynchronousIterable>(
+	iterable: Iterable,
+) =>
+	createIterableIterator(
+		isIterable(iterable)
+			? function* () {
+					const iterator = getIterator(iterable);
+					const item = { done: false, ...iterator.next() };
 
-	// eslint-disable-next-line functional/no-loop-statement
-	while (!item.done) {
-		const next = { done: false, ...iterator.next() };
+					// eslint-disable-next-line functional/no-loop-statement
+					while (!item.done) {
+						const next = { done: false, ...iterator.next() };
 
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (!next.done) {
-			yield item.value as Input extends ReadOnlyArray
-				? Initial<Input>[number]
-				: AsynchronousIterableItem<Input>;
-		}
+						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+						next.done ? undefined : yield item.value;
 
-		// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
-		Object.assign(item, next);
-	}
-};
+						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+						Object.assign(item, next);
+					}
+			  }
+			: async function* () {
+					const iterator = getIterator(iterable);
+					const item = {
+						done: false,
+						...(await (iterator as AsyncIterator<unknown>).next()),
+					};
+
+					// eslint-disable-next-line functional/no-loop-statement
+					while (!item.done) {
+						const next = {
+							done: false,
+							...(await (
+								iterator as AsyncIterator<unknown>
+							).next()),
+						};
+
+						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+						next.done ? undefined : yield item.value;
+
+						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+						Object.assign(item, next);
+					}
+			  },
+	) as Iterable extends ReadOnlyArray
+		? IterableIterator<Initial<Iterable>[number]>
+		: GeneratorOutput<Iterable>;

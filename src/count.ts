@@ -1,9 +1,10 @@
-import type { Predicate } from "@vangware/types";
+import type { AsynchronousIterable, Predicate } from "@vangware/types";
 import { filter } from "./filter.js";
 import { length } from "./length.js";
 
 /**
- * Gets the amount of elements that match the given predicate.
+ * Counts the number of items that satisfy a predicate in the given iterable or
+ * asynchronous iterable.
  *
  * @category Reducers
  * @example
@@ -15,7 +16,11 @@ import { length } from "./length.js";
  * @param predicate Predicate function for items to be counted.
  * @returns Curried function with `predicate` in context.
  */
-export const count =
-	<Item>(predicate: Predicate<Item>) =>
-	(iterable: Iterable<Item>) =>
-		length(filter(predicate)(iterable));
+export const count = <Item, Predicated extends Item>(
+	predicate: Predicate<Item, Predicated>,
+) => {
+	const predicateFilter = filter(predicate);
+
+	return <Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+		length(predicateFilter(iterable));
+};

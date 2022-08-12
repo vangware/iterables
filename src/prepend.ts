@@ -1,10 +1,10 @@
+import type { AsynchronousIterable } from "@vangware/types";
 import { append } from "./append.js";
 
 /**
- * Prepends iterables.
+ * Prepends one iterable or asynchronous iterable to another.
  *
  * @category Generators
- * @category Reducers
  * @example
  * ```typescript
  * const prependNumbers = prepend([0, 1, 2, 3, 4]);
@@ -14,6 +14,8 @@ import { append } from "./append.js";
  * @returns Curried generator function with `initialIterable` set in context.
  */
 export const prepend =
-	<InitialItem>(initialIterable: Iterable<InitialItem>) =>
-	<TailItem>(tailIterable: Iterable<TailItem>) =>
+	<InitialIterable extends AsynchronousIterable>(
+		initialIterable: InitialIterable,
+	) =>
+	<TailIterable extends AsynchronousIterable>(tailIterable: TailIterable) =>
 		append(tailIterable)(initialIterable);

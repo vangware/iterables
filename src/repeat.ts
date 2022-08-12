@@ -1,7 +1,9 @@
+import { createIterableIterator } from "./createIterableIterator.js";
+
 /**
- * Repeat given item the specified amount of times.
+ * Repeat given item the specified amount of times (can be `BigInt` or
+ * `Infinity` times) as an iterable.
  *
- * @category Common
  * @category Generators
  * @example
  * ```typescript
@@ -11,10 +13,12 @@
  * @param item Item to repeat.
  * @returns Curried function with `item` in context.
  */
-export const repeat = <Item>(item: Item) =>
-	function* (times: bigint | number) {
-		// eslint-disable-next-line functional/no-let, functional/no-loop-statement
-		for (let count = 0; count < times; count += 1) {
-			yield item;
-		}
-	};
+export const repeat =
+	<Item>(item: Item) =>
+	(times: bigint | number) =>
+		createIterableIterator(function* () {
+			// eslint-disable-next-line functional/no-let, functional/no-loop-statement
+			for (let count = 0; count < times; count += 1) {
+				yield item;
+			}
+		});

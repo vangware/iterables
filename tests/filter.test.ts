@@ -22,4 +22,16 @@ export default [
 		received: iterableToArray(filterOdds(array)),
 		wanted: [0, 2],
 	},
+	{
+		given: "an async array of numbers and an always false filter",
+		must: "return an empty iterable",
+		received: iterableToArray(filterEverything(array)),
+		wanted: [],
+	},
+	{
+		given: "an async array of numbers and an even number filter",
+		must: "return only even numbers",
+		received: iterableToArray(filterOdds(array)),
+		wanted: [0, 2],
+	},
 ] as Tests<ReadOnlyArray<number>>;

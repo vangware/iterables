@@ -19,7 +19,7 @@ import { map } from "https://esm.sh/@vangware/iterables";
 
 const mapDouble = map((value: number) => value * 2);
 
-mapDouble([1, 2, 3]); // [2, 4, 6]
+[...mapDouble([1, 2, 3])]; // [2, 4, 6]
 ```
 
 🌎 Or in the browser:
@@ -30,7 +30,7 @@ mapDouble([1, 2, 3]); // [2, 4, 6]
 
 	const mapDouble = map((value: number) => value * 2);
 
-	mapDouble([1, 2, 3]); // [2, 4, 6]
+	[...mapDouble([1, 2, 3])]; // [2, 4, 6]
 </script>
 ```
 
@@ -49,7 +49,7 @@ import { map } from "@vangware/iterables";
 
 const mapDouble = map((value: number) => value * 2);
 
-mapDouble([1, 2, 3]); // [2, 4, 6]
+[...mapDouble([1, 2, 3])]; // [2, 4, 6]
 ```
 
 ## Documentation

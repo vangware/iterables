@@ -1,7 +1,9 @@
+import { isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable } from "@vangware/types";
 
 /**
- * Get an iterator instance from an iterable.
+ * Get a `Symbol.iterator` from an iterable or a `Symbol.asyncIterator` from an
+ * asynchronous iterable.
  *
  * @category Common
  * @example
@@ -15,14 +17,15 @@ import type { AsynchronousIterable } from "@vangware/types";
  * @param iterable Iterable to get the iterator from.
  * @returns Iterator instance.
  */
-export const getIterator = <InputIterable extends AsynchronousIterable>(
-	iterable: InputIterable,
+export const getIterator = <Iterable extends AsynchronousIterable>(
+	iterable: Iterable,
 ) =>
-	((iterable as Partial<Iterable<unknown>>)[Symbol.iterator]?.() ??
-		(iterable as AsyncIterable<unknown>)[
-			Symbol.asyncIterator
-		]()) as InputIterable extends AsyncIterable<infer Item>
-		? AsyncIterator<Awaited<Item>, Awaited<Item>>
-		: InputIterable extends Iterable<infer Item>
-		? Iterator<Item, Item>
+	(iterable as AsyncIterable<unknown>)[
+		Symbol[
+			isIterable(iterable) ? "iterator" : "asyncIterator"
+		] as keyof AsyncIterable<unknown>
+	]() as Iterable extends AsynchronousIterable<infer Item>
+		? Iterable extends AsyncIterator<Item>
+			? AsyncIterableIterator<Item>
+			: Iterator<Item>
 		: never;

@@ -1,7 +1,8 @@
+import { createIterableIterator } from "./createIterableIterator.js";
+
 /**
- * Range generator (from `from` to `to`).
+ * Range iterable generator (from `from` to `to`).
  *
- * @category Common
  * @category Generators
  * @example
  * ```typescript
@@ -14,7 +15,8 @@
 export const range =
 	<Step extends bigint | number>(step: Step) =>
 	(from: Step extends bigint ? bigint : number) =>
-		function* (to: Step extends bigint ? bigint : number) {
+	(to: Step extends bigint ? bigint : number) =>
+		createIterableIterator(function* () {
 			// eslint-disable-next-line functional/no-let
 			let current = from as number;
 
@@ -32,4 +34,4 @@ export const range =
 					yield (current -= step as number);
 				}
 			}
-		};
+		});

@@ -1,9 +1,9 @@
 import type { Entry, ReadOnlyRecord } from "@vangware/types";
+import { createIterableIterator } from "./createIterableIterator.js";
 
 /**
- * Yields all entries of an object.
+ * Yields all entries of an object (including symbols).
  *
- * @category Common
  * @category Generators
  * @example
  * ```typescript
@@ -13,21 +13,25 @@ import type { Entry, ReadOnlyRecord } from "@vangware/types";
  * entries.next(); // { value: undefined, done: true }
  * ```
  * @param input Object to get entries from.
- * @yields Entries of the given object.
+ * @returns Iterable with entries of the given object (including symbols).
  */
-export const objectToEntries = function* <Key extends PropertyKey, Value>(
+export const objectToEntries = <Key extends PropertyKey, Value>(
 	input: ReadOnlyRecord<Value, Key>,
-) {
-	// eslint-disable-next-line functional/no-loop-statement
-	for (const key in input) {
-		// eslint-disable-next-line functional/no-conditional-statement
-		if (Object.hasOwn(input, key)) {
-			yield [key, input[key]] as Entry<Key, Value>;
+) =>
+	createIterableIterator(function* () {
+		// eslint-disable-next-line functional/no-loop-statement
+		for (const key in input) {
+			// eslint-disable-next-line functional/no-conditional-statement
+			if (Object.hasOwn(input, key)) {
+				yield [key, input[key]] as Entry<Key, Value>;
+			}
 		}
-	}
 
-	// eslint-disable-next-line functional/no-loop-statement
-	for (const symbolKey of Object.getOwnPropertySymbols(input)) {
-		yield [symbolKey as Key, input[symbolKey as Key]] as Entry<Key, Value>;
-	}
-};
+		// eslint-disable-next-line functional/no-loop-statement
+		for (const symbolKey of Object.getOwnPropertySymbols(input)) {
+			yield [symbolKey as Key, input[symbolKey as Key]] as Entry<
+				Key,
+				Value
+			>;
+		}
+	});
