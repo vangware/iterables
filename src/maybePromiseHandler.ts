@@ -1,5 +1,5 @@
+import { isPromise } from "@vangware/predicates";
 import type { MaybePromise } from "@vangware/types";
-import { isPromise } from "util/types";
 
 /**
  * If the given value is a promise, the `handler` is called when is resolved,

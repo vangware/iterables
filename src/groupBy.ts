@@ -30,4 +30,5 @@ export const groupBy = <Item, Key extends PropertyKey>(
 				...groups,
 				[group]: [...(groups[group] ?? []), item],
 			} as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
-	})({} as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
+		// eslint-disable-next-line no-null/no-null
+	})(Object.create(null) as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
