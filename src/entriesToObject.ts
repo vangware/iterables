@@ -27,7 +27,10 @@ export const entriesToObject = reduce(
 	<Key extends PropertyKey, Value>([key, value]: Entry<Key, Value>) =>
 		(object: ReadOnlyRecord<Value, Key>) =>
 			({ ...object, [key]: value } as ReadOnlyRecord<Value, Key>),
-)({}) as <Iterable extends AsynchronousIterable<Entry>>(
+	// eslint-disable-next-line no-null/no-null
+)(Object.create(null) as ReadOnlyRecord) as <
+	Iterable extends AsynchronousIterable<Entry>,
+>(
 	iterable: Iterable,
 ) => ReducerOutput<
 	Iterable,

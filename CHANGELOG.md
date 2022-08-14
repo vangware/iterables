@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 -   This project adheres to [Semantic Versioning][semver].
 -   This project uses [Gitmoji][gitmoji]
 
+## 2.0.1
+
+-   :bug: fix bad import.
+-   :building_construction: improve `iterableToArray` so is smaller.
+-   :building_construction: improve `entriesToObject` to reduce into an object
+    with no prototype.
+-   :building_construction: improve `groupBy` to reduce into an object with no
+    prototype.
+
 ## 2.0.0
 
 -   :arrow_up: dependency upgrade.
