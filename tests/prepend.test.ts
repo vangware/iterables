@@ -9,7 +9,7 @@ export default [
 	{
 		given: "an array of numbers an array of strings",
 		must: "return both arrays concatenated",
-		received: iterableToArray(prependNumbers(["foo", "bar"])),
-		wanted: [0, 1, 2, 3, 4, "foo", "bar"],
+		received: () => iterableToArray(prependNumbers(["foo", "bar"])),
+		wanted: () => [0, 1, 2, 3, 4, "foo", "bar"],
 	},
 ] as Tests<ReadOnlyArray<number | string>>;

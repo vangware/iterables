@@ -17,19 +17,19 @@ export default [
 	{
 		given: "a string",
 		must: "loop over every letter of that string",
-		received: forEachTest("Vangware"),
-		wanted: [..."Vangware"],
+		received: () => forEachTest("Vangware"),
+		wanted: () => [..."Vangware"],
 	},
 	{
 		given: "an array",
 		must: "loop over every item of that array",
-		received: forEachTest(["🟢", "🟩"]),
-		wanted: ["🟢", "🟩"],
+		received: () => forEachTest(["🟢", "🟩"]),
+		wanted: () => ["🟢", "🟩"],
 	},
 	{
 		given: "a generator",
 		must: "loop over every yielded value",
-		received: forEachTest(range(1)(0)(10)),
-		wanted: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		received: () => forEachTest(range(1)(0)(10)),
+		wanted: () => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 	},
 ] as Tests<ReadOnlyArray>;

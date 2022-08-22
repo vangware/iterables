@@ -12,31 +12,32 @@ export default [
 	{
 		given: "an array",
 		must: "return interspersed items",
-		received: iterableToArray(commaIntersperse(array)),
-		wanted: [0, ",", 1, ",", 2],
+		received: () => iterableToArray(commaIntersperse(array)),
+		wanted: () => [0, ",", 1, ",", 2],
 	},
 	{
 		given: "an iterable",
 		must: "return interspersed items",
-		received: iterableToArray(commaIntersperse(range(1)(0)(2))),
-		wanted: [0, ",", 1, ",", 2],
+		received: () => iterableToArray(commaIntersperse(range(1)(0)(2))),
+		wanted: () => [0, ",", 1, ",", 2],
 	},
 	{
 		given: "an empty array",
 		must: "return empty iterable",
-		received: iterableToArray(commaIntersperse([])),
-		wanted: [],
+		received: () => iterableToArray(commaIntersperse([])),
+		wanted: () => [],
 	},
 	{
 		given: "an empty iterable",
 		must: "return empty iterable",
-		received: iterableToArray(commaIntersperse(iterateArray([]))),
-		wanted: [],
+		received: () => iterableToArray(commaIntersperse(iterateArray([]))),
+		wanted: () => [],
 	},
 	{
 		given: "an empty async iterable",
 		must: "return empty iterable",
-		received: iterableToArray(commaIntersperse(asyncIterateArray([]))),
-		wanted: [],
+		received: () =>
+			iterableToArray(commaIntersperse(asyncIterateArray([]))),
+		wanted: () => [],
 	},
 ] as Tests<ReadOnlyArray<number | string>>;

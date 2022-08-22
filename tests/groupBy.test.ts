@@ -10,18 +10,19 @@ export default [
 	{
 		given: "an array of strings and a grouper by string",
 		must: "group by the string in the array",
-		received: groupBy((groupName: string) => groupName)(stringArray),
-		wanted: {
+		received: () => groupBy((groupName: string) => groupName)(stringArray),
+		wanted: () => ({
 			[string1]: [string1, string1],
 			[string2]: [string2, string2],
-		},
+		}),
 	},
 	{
 		given: "an array of numbers and a grouper by even/odd",
 		must: "group bu evens/odss",
-		received: groupBy((value: number) =>
-			value % 2 === 0 ? "even" : "odd",
-		)(numberArray),
-		wanted: { even: [0, 2], odd: [1, 3] },
+		received: () =>
+			groupBy((value: number) => (value % 2 === 0 ? "even" : "odd"))(
+				numberArray,
+			),
+		wanted: () => ({ even: [0, 2], odd: [1, 3] }),
 	},
 ] as Tests;
