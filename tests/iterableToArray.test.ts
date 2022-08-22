@@ -7,19 +7,19 @@ export default [
 	{
 		given: "a string",
 		must: "return an array with every letter of that string",
-		received: iterableToArray("Vangware"),
-		wanted: [..."Vangware"],
+		received: () => iterableToArray("Vangware"),
+		wanted: () => [..."Vangware"],
 	},
 	{
 		given: "an array",
 		must: "return that same array",
-		received: iterableToArray(["🟢", "🟩"]),
-		wanted: ["🟢", "🟩"],
+		received: () => iterableToArray(["🟢", "🟩"]),
+		wanted: () => ["🟢", "🟩"],
 	},
 	{
 		given: "a generator",
 		must: "return an array with generated values",
-		received: iterableToArray(range(1)(0)(10)),
-		wanted: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		received: () => iterableToArray(range(1)(0)(10)),
+		wanted: () => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 	},
 ] as Tests<ReadOnlyArray>;

@@ -12,61 +12,61 @@ export default [
 	{
 		given: "an array of entries [string, value]",
 		must: "return an object with the shape { string: value }",
-		received: entriesToObject([[stringKey, value] as const]),
-		wanted: { [stringKey]: value },
+		received: () => entriesToObject([[stringKey, value] as const]),
+		wanted: () => ({ [stringKey]: value }),
 	},
 	{
 		given: "an array of entries [number, value]",
 		must: "return an object with the shape { number: value }",
-		received: entriesToObject([[numberKey, value]]),
-		wanted: { [numberKey]: value },
+		received: () => entriesToObject([[numberKey, value]]),
+		wanted: () => ({ [numberKey]: value }),
 	},
 	{
 		given: "an array of entries [symbol, value]",
 		must: "return an object with the shape { symbol: value }",
-		received: entriesToObject([[symbolKey, value]]),
-		wanted: { [symbolKey]: value },
+		received: () => entriesToObject([[symbolKey, value]]),
+		wanted: () => ({ [symbolKey]: value }),
 	},
 	{
 		given: "an iterable of entries [string, value]",
 		must: "return an object with the shape { string: value }",
-		received: entriesToObject(iterateArray([[stringKey, value] as const])),
-		wanted: { [stringKey]: value },
+		received: () =>
+			entriesToObject(iterateArray([[stringKey, value] as const])),
+		wanted: () => ({ [stringKey]: value }),
 	},
 	{
 		given: "an iterable of entries [number, value]",
 		must: "return an object with the shape { number: value }",
-		received: entriesToObject(iterateArray([[numberKey, value] as const])),
-		wanted: { [numberKey]: value },
+		received: () =>
+			entriesToObject(iterateArray([[numberKey, value] as const])),
+		wanted: () => ({ [numberKey]: value }),
 	},
 	{
 		given: "an iterable of entries [symbol, value]",
 		must: "return an object with the shape { symbol: value }",
-		received: entriesToObject(iterateArray([[symbolKey, value] as const])),
-		wanted: { [symbolKey]: value },
+		received: () =>
+			entriesToObject(iterateArray([[symbolKey, value] as const])),
+		wanted: () => ({ [symbolKey]: value }),
 	},
 	{
 		given: "an async iterable of entries [string, value]",
 		must: "return an object with the shape { string: value }",
-		received: entriesToObject(
-			asyncIterateArray([[stringKey, value] as const]),
-		),
-		wanted: { [stringKey]: value },
+		received: () =>
+			entriesToObject(asyncIterateArray([[stringKey, value] as const])),
+		wanted: () => ({ [stringKey]: value }),
 	},
 	{
 		given: "an async iterable of entries [number, value]",
 		must: "return an object with the shape { number: value }",
-		received: entriesToObject(
-			asyncIterateArray([[numberKey, value] as const]),
-		),
-		wanted: { [numberKey]: value },
+		received: () =>
+			entriesToObject(asyncIterateArray([[numberKey, value] as const])),
+		wanted: () => ({ [numberKey]: value }),
 	},
 	{
 		given: "an async iterable of entries [symbol, value]",
 		must: "return an object with the shape { symbol: value }",
-		received: entriesToObject(
-			asyncIterateArray([[symbolKey, value] as const]),
-		),
-		wanted: { [symbolKey]: value },
+		received: () =>
+			entriesToObject(asyncIterateArray([[symbolKey, value] as const])),
+		wanted: () => ({ [symbolKey]: value }),
 	},
 ] as Tests<ReadOnlyRecord<string, string>>;

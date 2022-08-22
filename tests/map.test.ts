@@ -13,25 +13,25 @@ export default [
 	{
 		given: "an array of numbers and a map that doubles",
 		must: "get an array with all values times 2",
-		received: iterableToArray(arrayDouble),
-		wanted: [0, 2, 4, 6],
+		received: () => iterableToArray(arrayDouble),
+		wanted: () => [0, 2, 4, 6],
 	},
 	{
 		given: "an array of doubles and a map that doubles",
 		must: "get an array with all values times 4",
-		received: iterableToArray(mapDouble(arrayDouble)),
-		wanted: [0, 4, 8, 12],
+		received: () => iterableToArray(mapDouble(arrayDouble)),
+		wanted: () => [0, 4, 8, 12],
 	},
 	{
 		given: "an iterable of numbers and a map that doubles",
 		must: "get an array with all values times 2",
-		received: iterableToArray(mapDouble(range(1)(0)(3))),
-		wanted: [0, 2, 4, 6],
+		received: () => iterableToArray(mapDouble(range(1)(0)(3))),
+		wanted: () => [0, 2, 4, 6],
 	},
 	{
 		given: "an async iterable of numbers and a map that doubles",
 		must: "get an async iterable with all values duplicated",
-		received: iterableToArray(mapDouble(asyncIterateArray(array))),
-		wanted: [0, 2, 4, 6],
+		received: () => iterableToArray(mapDouble(asyncIterateArray(array))),
+		wanted: () => [0, 2, 4, 6],
 	},
 ] as Tests<ReadOnlyArray<number>>;

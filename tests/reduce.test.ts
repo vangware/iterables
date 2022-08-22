@@ -9,7 +9,7 @@ export default [
 	{
 		given: "an array of numbers and a sum reducer",
 		must: "return the total sum",
-		received: sumFrom0([1, 2, 3]),
-		wanted: 6,
+		received: () => sumFrom0([1, 2, 3]),
+		wanted: () => 6,
 	},
 ] as Tests<number>;
