@@ -31,3 +31,4 @@ export type { GeneratorOutput } from "./types/GeneratorOutput.js";
 export type { ReducerOutput } from "./types/ReducerOutput.js";
 export { unique } from "./unique.js";
 export { zip } from "./zip.js";
+export { zipIndex } from "./zipIndex.js";
