@@ -24,7 +24,7 @@ export const maybePromiseHandler =
 		(isPromise(maybePromise)
 			? (maybePromise as Promise<Value>).then(handler)
 			: handler(
-					maybePromise as Value,
+					maybePromise as unknown as Value,
 			  )) as MaybePromiseValue extends Promise<Value>
 			? Promise<Output>
 			: Output;
