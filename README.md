@@ -39,7 +39,12 @@ const mapDouble = map((value: number) => value * 2);
 First:
 
 ```bash
-npm i @vangware/iterables
+# If you use npm
+npm install @vangware/iterables
+# If you use pnpm
+pnpm add @vangware/iterables
+# If you use yarn
+yarn add @vangware/iterables
 ```
 
 And then:
@@ -54,9 +59,9 @@ const mapDouble = map((value: number) => value * 2);
 
 ## Documentation
 
-Documentation can be found [HERE][documentation]. It is auto-generated with
-[typedoc][typedoc] based on the JSDocs and the types in the source. Shouldn't be
-necessary to read this, code editors like [VS Code][vscode] integrate the
+Documentation is available [HERE][documentation]. It is auto-generated with
+[typedoc][typedoc] based on the JSDocs and the types in the source. It shouldn't
+be necessary to read this. Code editors like [VS Code][vscode] integrate the
 documentation in the UI.
 
 ## Changelog
