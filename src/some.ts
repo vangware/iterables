@@ -1,7 +1,9 @@
-import { isBoolean } from "@vangware/predicates";
 import type { AsynchronousIterable, Predicate } from "@vangware/types";
+import { maybePromiseHandler } from "@vangware/utils";
 import { every } from "./every.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
+
+const someHandler = maybePromiseHandler((result: boolean) => !result);
 
 /**
  * Evaluates items in an iterable or asynchronous iterable against a predicate
@@ -22,15 +24,9 @@ export const some = <Item, Predicated extends Item = Item>(
 ) => {
 	const everyPredicate = every<Item>(item => !predicate(item));
 
-	return <Iterable extends AsynchronousIterable<Item>>(
-		iterable: Iterable,
-	) => {
-		const output = everyPredicate(iterable);
-
-		return (
-			isBoolean(output)
-				? !(output as unknown as boolean)
-				: output.then(result => !result)
-		) as ReducerOutput<Iterable, boolean>;
-	};
+	return <Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+		someHandler(everyPredicate(iterable)) as ReducerOutput<
+			Iterable,
+			boolean
+		>;
 };

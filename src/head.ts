@@ -3,8 +3,8 @@ import type {
 	Head,
 	ReadOnlyArray,
 } from "@vangware/types";
+import { maybePromiseHandler } from "@vangware/utils";
 import { getIterator } from "./getIterator.js";
-import { maybePromiseHandler } from "./maybePromiseHandler.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
