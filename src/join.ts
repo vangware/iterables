@@ -1,5 +1,5 @@
 import type { AsynchronousIterable, Maybe } from "@vangware/types";
-import { maybePromiseHandler } from "./maybePromiseHandler.js";
+import { maybePromiseHandler } from "@vangware/utils";
 import { reduce } from "./reduce.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
