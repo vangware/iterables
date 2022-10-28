@@ -1,6 +1,6 @@
 import type { AsynchronousIterable, Reducer } from "@vangware/types";
+import { maybePromiseHandler } from "@vangware/utils";
 import { forEach } from "./forEach.js";
-import { maybePromiseHandler } from "./maybePromiseHandler.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
