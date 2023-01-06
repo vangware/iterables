@@ -1,8 +1,7 @@
 <img alt="Vangware's Iterables logo" src="./logo.svg" height="128" />
 
-![Build Status][build-status-badge] ![Coverage][coverage-badge]
-![License][license-badge] ![NPM Version][npm-version-badge]
-![Open Issues][open-issues-badge]
+![Coverage][coverage-badge] ![License][license-badge]
+![NPM Version][npm-version-badge] ![Open Issues][open-issues-badge]
 
 🔁 Iterable and AsyncIterable utils.
 
@@ -74,8 +73,6 @@ Test coverage can be found [HERE][coverage].
 
 <!-- Reference -->
 
-[build-status-badge]:
-	https://img.shields.io/github/workflow/status/vangware/iterables/Test%20&%20Coverage.svg?style=for-the-badge&labelColor=666&color=0a8&link=https://github.com/vangware/iterables/actions
 [changelog]: https://github.com/vangware/iterables/blob/main/CHANGELOG.md
 [coverage-badge]:
 	https://img.shields.io/coveralls/github/vangware/iterables.svg?style=for-the-badge&labelColor=666&color=0a8&link=https://coveralls.io/github/vangware/iterables
