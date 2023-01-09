@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 -   This project adheres to [Semantic Versioning][semver].
 -   This project uses [Gitmoji][gitmoji]
 
+## 2.2.5
+
+-   ⬆️ dependency upgrade.
+-   ✏️ fix typo in `package.json`.
+
 ## 2.2.4
 
 -   ⬆️ dependency upgrade.
