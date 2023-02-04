@@ -19,22 +19,24 @@ export const flat = <Iterable extends AsynchronousIterable>(
 	createIterableIterator(
 		isIterable(iterable)
 			? function* () {
-					// eslint-disable-next-line functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					for (const iterableOrItem of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (isIterable(iterableOrItem)) {
 							yield* iterableOrItem;
+							// eslint-disable-next-line functional/no-conditional-statements
 						} else {
 							yield iterableOrItem;
 						}
 					}
 			  }
 			: async function* () {
-					// eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/no-unnecessary-type-assertion
+					// eslint-disable-next-line functional/no-loop-statements
 					for await (const iterableOrItem of iterable as AsyncIterable<unknown>) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (isAsynchronousIterable(iterableOrItem)) {
 							yield* iterableOrItem;
+							// eslint-disable-next-line functional/no-conditional-statements
 						} else {
 							yield iterableOrItem;
 						}

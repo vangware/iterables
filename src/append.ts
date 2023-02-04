@@ -29,7 +29,8 @@ export const append = <TailIterable extends AsynchronousIterable>(
 	) =>
 		createIterableIterator(
 			tailIsAsyncIterable || isAsyncIterable(initialIterable)
-				? (async function* () {
+				? // eslint-disable-next-line @typescript-eslint/require-await
+				  (async function* () {
 						yield* initialIterable;
 						yield* tailIterable;
 				  } as () => AsyncGenerator<

@@ -22,14 +22,15 @@ export const range =
 
 			yield current;
 
-			// eslint-disable-next-line functional/no-conditional-statement
+			// eslint-disable-next-line functional/no-conditional-statements
 			if (from < to) {
-				// eslint-disable-next-line functional/no-loop-statement
+				// eslint-disable-next-line functional/no-loop-statements
 				while (current + (step as number) <= to) {
 					yield (current += step as number);
 				}
+				// eslint-disable-next-line functional/no-conditional-statements
 			} else {
-				// eslint-disable-next-line functional/no-loop-statement
+				// eslint-disable-next-line functional/no-loop-statements
 				while (current - (step as number) >= to) {
 					yield (current -= step as number);
 				}

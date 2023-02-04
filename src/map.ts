@@ -22,13 +22,13 @@ export const map =
 		createIterableIterator(
 			isIterable(iterable)
 				? function* () {
-						// eslint-disable-next-line functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for (const item of iterable) {
 							yield mapper(item);
 						}
 				  }
 				: async function* () {
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for await (const item of iterable as AsyncIterable<Item>) {
 							yield mapper(item);
 						}

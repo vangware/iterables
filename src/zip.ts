@@ -30,14 +30,14 @@ export const zip = <FirstIterable extends AsynchronousIterable>(
 				? async function* () {
 						const iteratorSecond = getIterator(iterableSecond);
 
-						// eslint-disable-next-line functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for await (const itemA of iterableFirst as AsyncIterable<unknown>) {
 							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 							const { done = false, value } = await (
 								iteratorSecond as AsyncIterator<unknown>
 							).next();
 
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (!done) {
 								yield [itemA, value];
 							} else {
@@ -48,13 +48,13 @@ export const zip = <FirstIterable extends AsynchronousIterable>(
 				: function* () {
 						const iteratorSecond = getIterator(iterableSecond);
 
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for (const itemA of iterableFirst as Iterable<unknown>) {
 							// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 							const { done = false, value } =
 								iteratorSecond.next();
 
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (!done) {
 								yield [itemA, value];
 							} else {

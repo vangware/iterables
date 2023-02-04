@@ -19,15 +19,15 @@ export const objectToEntries = <Key extends PropertyKey, Value>(
 	input: ReadOnlyRecord<Value, Key>,
 ) =>
 	createIterableIterator(function* () {
-		// eslint-disable-next-line functional/no-loop-statement
+		// eslint-disable-next-line functional/no-loop-statements
 		for (const key in input) {
-			// eslint-disable-next-line functional/no-conditional-statement
+			// eslint-disable-next-line functional/no-conditional-statements
 			if (Object.hasOwn(input, key)) {
 				yield [key, input[key]] as Entry<Key, Value>;
 			}
 		}
 
-		// eslint-disable-next-line functional/no-loop-statement
+		// eslint-disable-next-line functional/no-loop-statements
 		for (const symbolKey of Object.getOwnPropertySymbols(input)) {
 			yield [symbolKey as Key, input[symbolKey as Key]] as Entry<
 				Key,

@@ -24,18 +24,18 @@ export const filter =
 		createIterableIterator(
 			isIterable(iterable)
 				? function* () {
-						// eslint-disable-next-line functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for (const item of iterable) {
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (predicate(item)) {
 								yield item;
 							}
 						}
 				  }
 				: async function* () {
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for await (const item of iterable as AsyncIterable<Item>) {
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (predicate(item)) {
 								yield item;
 							}

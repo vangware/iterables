@@ -22,8 +22,10 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 export const head = <Iterable extends AsynchronousIterable>(
 	iterable: Iterable,
 ) =>
-	maybePromiseHandler(({ value }: IteratorResult<unknown, unknown>) => value)(
-		getIterator(iterable).next(),
-	) as Iterable extends ReadOnlyArray
+	maybePromiseHandler(
+		({
+			value,
+		}: Readonly<Pick<IteratorResult<unknown, unknown>, "value">>) => value,
+	)(getIterator(iterable).next()) as Iterable extends ReadOnlyArray
 		? Head<Iterable>
 		: GeneratorOutput<Iterable>;

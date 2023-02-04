@@ -24,12 +24,12 @@ export const take =
 						// eslint-disable-next-line functional/no-let
 						let count = 0n;
 
-						// eslint-disable-next-line functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for (const item of iterable) {
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (count < amount) {
 								yield item;
-								// eslint-disable-next-line functional/no-expression-statement
+								// eslint-disable-next-line functional/no-expression-statements
 								count += 1n;
 							}
 						}
@@ -38,12 +38,12 @@ export const take =
 						// eslint-disable-next-line functional/no-let
 						let count = 0n;
 
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+						// eslint-disable-next-line functional/no-loop-statements
 						for await (const item of iterable as AsyncIterable<unknown>) {
-							// eslint-disable-next-line functional/no-conditional-statement
+							// eslint-disable-next-line functional/no-conditional-statements
 							if (count < amount) {
 								yield item;
-								// eslint-disable-next-line functional/no-expression-statement
+								// eslint-disable-next-line functional/no-expression-statements
 								count += 1n;
 							}
 						}
