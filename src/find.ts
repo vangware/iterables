@@ -21,9 +21,9 @@ export const find =
 	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
 		(isIterable(iterable)
 			? () => {
-					// eslint-disable-next-line functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					for (const item of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (predicate(item)) {
 							return item;
 						}
@@ -32,9 +32,9 @@ export const find =
 					return undefined;
 			  }
 			: async () => {
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					for await (const item of iterable as AsyncIterable<Item>) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (predicate(item)) {
 							return item;
 						}

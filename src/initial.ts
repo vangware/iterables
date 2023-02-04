@@ -28,14 +28,14 @@ export const initial = <Iterable extends AsynchronousIterable>(
 					const iterator = getIterator(iterable);
 					const item = { done: false, ...iterator.next() };
 
-					// eslint-disable-next-line functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					while (!item.done) {
 						const next = { done: false, ...iterator.next() };
 
 						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 						next.done ? undefined : yield item.value;
 
-						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statements
 						Object.assign(item, next);
 					}
 			  }
@@ -46,7 +46,7 @@ export const initial = <Iterable extends AsynchronousIterable>(
 						...(await (iterator as AsyncIterator<unknown>).next()),
 					};
 
-					// eslint-disable-next-line functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					while (!item.done) {
 						const next = {
 							done: false,
@@ -58,7 +58,7 @@ export const initial = <Iterable extends AsynchronousIterable>(
 						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 						next.done ? undefined : yield item.value;
 
-						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+						// eslint-disable-next-line functional/immutable-data, functional/no-expression-statements
 						Object.assign(item, next);
 					}
 			  },
