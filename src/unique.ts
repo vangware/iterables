@@ -23,11 +23,11 @@ export const unique = <Iterable extends AsynchronousIterable>(
 			? function* () {
 					const set = new Set();
 
-					// eslint-disable-next-line functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					for (const item of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (!set.has(item)) {
-							// eslint-disable-next-line functional/no-expression-statement
+							// eslint-disable-next-line functional/no-expression-statements
 							set.add(item);
 							yield item;
 						}
@@ -36,11 +36,11 @@ export const unique = <Iterable extends AsynchronousIterable>(
 			: async function* () {
 					const set = new Set();
 
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion, functional/no-loop-statement
+					// eslint-disable-next-line functional/no-loop-statements
 					for await (const item of iterable as AsyncIterable<unknown>) {
-						// eslint-disable-next-line functional/no-conditional-statement
+						// eslint-disable-next-line functional/no-conditional-statements
 						if (!set.has(item)) {
-							// eslint-disable-next-line functional/no-expression-statement
+							// eslint-disable-next-line functional/no-expression-statements
 							set.add(item);
 							yield item;
 						}
