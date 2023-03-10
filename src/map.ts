@@ -1,6 +1,5 @@
-import { isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable, Unary } from "@vangware/types";
-import { createIterableIterator } from "./createIterableIterator.js";
+import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
 
 /**
  * Map for iterables and asynchronous iterables.
@@ -16,25 +15,25 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @param mapper Mapper function.
  * @returns Generator function with `mapper` function set in context.
  */
-export const map =
-	<Item, MappedItem>(mapper: Unary<Item, MappedItem>) =>
-	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
-		createIterableIterator(
-			isIterable(iterable)
-				? function* () {
-						// eslint-disable-next-line functional/no-loop-statements
-						for (const item of iterable) {
-							yield mapper(item);
-						}
-				  }
-				: async function* () {
-						// eslint-disable-next-line functional/no-loop-statements
-						for await (const item of iterable as AsyncIterable<Item>) {
-							yield mapper(item);
-						}
-				  },
-		) as Iterable extends AsynchronousIterable<Item>
-			? Iterable extends AsyncIterable<Item>
-				? AsyncIterableIterator<MappedItem>
-				: IterableIterator<MappedItem>
-			: never;
+export const map = <Item, MappedItem>(mapper: Unary<Item, MappedItem>) =>
+	handleAsynchronousIterable<Item, MappedItem>(
+		iterable =>
+			function* () {
+				// eslint-disable-next-line functional/no-loop-statements
+				for (const item of iterable) {
+					yield mapper(item);
+				}
+			},
+	)(
+		iterable =>
+			async function* () {
+				// eslint-disable-next-line functional/no-loop-statements
+				for await (const item of iterable) {
+					yield mapper(item);
+				}
+			},
+	) as <Iterable extends AsynchronousIterable<Item>>(
+		iterable: Iterable,
+	) => Iterable extends AsyncIterable<Item>
+		? AsyncIterableIterator<MappedItem>
+		: IterableIterator<MappedItem>;

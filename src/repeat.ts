@@ -18,7 +18,7 @@ export const repeat =
 	(times: bigint | number) =>
 		createIterableIterator(function* () {
 			// eslint-disable-next-line functional/no-let, functional/no-loop-statements
-			for (let count = 0; count < times; count += 1) {
+			for (let count = 0n; count < times; count += 1n) {
 				yield item;
 			}
 		});
