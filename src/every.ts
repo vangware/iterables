@@ -1,5 +1,5 @@
-import { isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable, Predicate } from "@vangware/types";
+import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
@@ -16,31 +16,29 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  * @param predicate Predicate function to evaluate each item.
  * @returns Curried function with `predicate` set in context.
  */
-export const every =
-	<Item, Predicated extends Item = Item>(
-		predicate: Predicate<Item, Predicated>,
-	) =>
-	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
-		(isIterable(iterable)
-			? () => {
-					// eslint-disable-next-line functional/no-loop-statements
-					for (const item of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (!predicate(item)) {
-							return false;
-						}
-					}
+export const every = <Item, Predicated extends Item = Item>(
+	predicate: Predicate<Item, Predicated>,
+) =>
+	whenIsIterable(iterable => {
+		// eslint-disable-next-line functional/no-loop-statements
+		for (const item of iterable) {
+			// eslint-disable-next-line functional/no-conditional-statements
+			if (!predicate(item as Item)) {
+				return false;
+			}
+		}
 
-					return true;
-			  }
-			: async () => {
-					// eslint-disable-next-line functional/no-loop-statements
-					for await (const item of iterable as AsyncIterable<Item>) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (!predicate(item)) {
-							return false;
-						}
-					}
+		return true;
+	})(async (iterable: AsyncIterable<Item>) => {
+		// eslint-disable-next-line functional/no-loop-statements
+		for await (const item of iterable) {
+			// eslint-disable-next-line functional/no-conditional-statements
+			if (!predicate(item)) {
+				return false;
+			}
+		}
 
-					return true;
-			  })() as ReducerOutput<Iterable, boolean>;
+		return true;
+	}) as <Iterable extends AsynchronousIterable<Item>>(
+		iterable: Iterable,
+	) => ReducerOutput<Iterable, boolean>;

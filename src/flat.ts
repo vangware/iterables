@@ -1,6 +1,6 @@
 import { isAsynchronousIterable, isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable } from "@vangware/types";
-import { createIterableIterator } from "./createIterableIterator.js";
+import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
 
 /**
  * Flattens one level of the given iterable or asynchronous iterable.
@@ -13,41 +13,36 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @param iterable Iterable to flatten.
  * @returns Iterable with flatten items.
  */
-export const flat = <Iterable extends AsynchronousIterable>(
+export const flat = handleAsynchronousIterable(
+	iterable =>
+		function* () {
+			// eslint-disable-next-line functional/no-loop-statements
+			for (const iterableOrItem of iterable) {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+				isIterable(iterableOrItem)
+					? yield* iterableOrItem
+					: yield iterableOrItem;
+			}
+		},
+)(
+	iterable =>
+		async function* () {
+			// eslint-disable-next-line functional/no-loop-statements
+			for await (const iterableOrItem of iterable) {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+				isAsynchronousIterable(iterableOrItem)
+					? yield* iterableOrItem
+					: yield iterableOrItem;
+			}
+		},
+) as <Iterable extends AsynchronousIterable>(
 	iterable: Iterable,
-) =>
-	createIterableIterator(
-		isIterable(iterable)
-			? function* () {
-					// eslint-disable-next-line functional/no-loop-statements
-					for (const iterableOrItem of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (isIterable(iterableOrItem)) {
-							yield* iterableOrItem;
-							// eslint-disable-next-line functional/no-conditional-statements
-						} else {
-							yield iterableOrItem;
-						}
-					}
-			  }
-			: async function* () {
-					// eslint-disable-next-line functional/no-loop-statements
-					for await (const iterableOrItem of iterable as AsyncIterable<unknown>) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (isAsynchronousIterable(iterableOrItem)) {
-							yield* iterableOrItem;
-							// eslint-disable-next-line functional/no-conditional-statements
-						} else {
-							yield iterableOrItem;
-						}
-					}
-			  },
-	) as Iterable extends AsynchronousIterable<infer Item>
-		? Item extends AsynchronousIterable<infer SubItem>
-			? Item extends AsyncIterable<SubItem>
-				? AsyncIterableIterator<SubItem>
-				: IterableIterator<SubItem>
-			: Iterable extends AsyncIterable<Item>
-			? AsyncIterableIterator<Item>
-			: IterableIterator<Item>
-		: never;
+) => Iterable extends AsynchronousIterable<infer Item>
+	? Item extends AsynchronousIterable<infer SubItem>
+		? Item extends AsyncIterable<SubItem>
+			? AsyncIterableIterator<SubItem>
+			: IterableIterator<SubItem>
+		: Iterable extends AsyncIterable<Item>
+		? AsyncIterableIterator<Item>
+		: IterableIterator<Item>
+	: never;
