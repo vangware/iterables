@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 -   This project adheres to [Semantic Versioning][semver].
 -   This project uses [Gitmoji][gitmoji]
 
+## 2.3.0
+
+-   ⬆️ dependency upgrade.
+-   ✨ add new `handleAsynchronousIterable` util for internal use mainly (takes
+    a generator for iterables, then a generator for async iterables and last an
+    iterable, using the proper generator automatically).
+-   ✨ add new `handleCurriedAsynchronousIterable` util (same as
+    `handleAsynchronousIterable` but for multiple iterables).
+-   🏗 update `append` to use `handleCurriedAsynchronousIterable`.
+-   🏗 update `drop` to use `handleAsynchronousIterable`.
+-   🏗 update `every` to use `whenIsIterable`.
+-   🏗 update `filter` to use `handleAsynchronousIterable`.
+-   🏗 update `find` to use `whenIsIterable`.
+-   🏗 update `flat` to use `handleAsynchronousIterable`.
+-   🐛 fix `getIterator` types.
+-   🏗 update `initial` to use `handleAsynchronousIterable`.
+-   🏗 update `map` to use `handleAsynchronousIterable`.
+-   🏗 update `repeat` to use `BigInt` for count.
+-   🏗 update `take` to use `handleAsynchronousIterable`.
+-   🏗 update `unique` to use `handleAsynchronousIterable`.
+-   🏗 update `zip` to use `handleCurriedAsynchronousIterable`.
+
 ## 2.2.10
 
 -   ⬆️ dependency upgrade.

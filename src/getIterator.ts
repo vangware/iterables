@@ -25,7 +25,7 @@ export const getIterator = <Iterable extends AsynchronousIterable>(
 			isIterable(iterable) ? "iterator" : "asyncIterator"
 		] as keyof AsyncIterable<unknown>
 	]() as Iterable extends AsynchronousIterable<infer Item>
-		? Iterable extends AsyncIterator<Item>
-			? AsyncIterableIterator<Item>
-			: Iterator<Item>
+		? Iterable extends AsyncIterable<Item>
+			? AsyncIterator<Item, Item, Item>
+			: Iterator<Item, Item, Item>
 		: never;

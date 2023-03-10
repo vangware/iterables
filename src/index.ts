@@ -10,6 +10,8 @@ export { flat } from "./flat.js";
 export { forEach } from "./forEach.js";
 export { getIterator } from "./getIterator.js";
 export { groupBy } from "./groupBy.js";
+export { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+export { handleCurriedAsynchronousIterable } from "./handleCurriedAsynchronousIterable.js";
 export { head } from "./head.js";
 export { includes } from "./includes.js";
 export { initial } from "./initial.js";

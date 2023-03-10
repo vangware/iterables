@@ -1,5 +1,5 @@
-import { isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable, Maybe, Unary } from "@vangware/types";
+import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
 /**
@@ -16,29 +16,27 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  * @param predicate Predicate function to search for item.
  * @returns Curried function with `predicate` set in context.
  */
-export const find =
-	<Item>(predicate: Unary<Item, boolean>) =>
-	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
-		(isIterable(iterable)
-			? () => {
-					// eslint-disable-next-line functional/no-loop-statements
-					for (const item of iterable) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (predicate(item)) {
-							return item;
-						}
-					}
+export const find = <Item>(predicate: Unary<Item, boolean>) =>
+	whenIsIterable(iterable => {
+		// eslint-disable-next-line functional/no-loop-statements
+		for (const item of iterable) {
+			// eslint-disable-next-line functional/no-conditional-statements
+			if (predicate(item as Item)) {
+				return item;
+			}
+		}
 
-					return undefined;
-			  }
-			: async () => {
-					// eslint-disable-next-line functional/no-loop-statements
-					for await (const item of iterable as AsyncIterable<Item>) {
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (predicate(item)) {
-							return item;
-						}
-					}
+		return undefined;
+	})(async (iterable: AsyncIterable<Item>) => {
+		// eslint-disable-next-line functional/no-loop-statements
+		for await (const item of iterable) {
+			// eslint-disable-next-line functional/no-conditional-statements
+			if (predicate(item)) {
+				return item;
+			}
+		}
 
-					return undefined;
-			  })() as ReducerOutput<Iterable, Maybe<Item>>;
+		return undefined;
+	}) as <Iterable extends AsynchronousIterable<Item>>(
+		iterable: Iterable,
+	) => ReducerOutput<Iterable, Maybe<Item>>;

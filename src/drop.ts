@@ -1,6 +1,5 @@
-import { isIterable } from "@vangware/predicates";
 import type { AsynchronousIterable } from "@vangware/types";
-import { createIterableIterator } from "./createIterableIterator.js";
+import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
@@ -16,41 +15,43 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @param amount Amount of items to drop.
  * @returns Curried function with `amount` in context.
  */
-export const drop =
-	(amount: bigint | number) =>
-	<Iterable extends AsynchronousIterable>(iterable: Iterable) =>
-		createIterableIterator(
-			isIterable(iterable)
-				? function* () {
-						// eslint-disable-next-line functional/no-let
-						let count = 0n;
+export const drop = (amount: bigint | number) =>
+	handleAsynchronousIterable(
+		iterable =>
+			function* () {
+				// eslint-disable-next-line functional/no-let
+				let count = 0n;
 
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (amount > 0) {
-							// eslint-disable-next-line functional/no-loop-statements
-							for (const item of iterable) {
-								// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-								count >= amount ? yield item : (count += 1n);
-							}
-							// eslint-disable-next-line functional/no-conditional-statements
-						} else {
-							yield* iterable;
-						}
-				  }
-				: async function* () {
-						// eslint-disable-next-line functional/no-let
-						let count = 0n;
+				// eslint-disable-next-line functional/no-conditional-statements
+				if (amount > 0) {
+					// eslint-disable-next-line functional/no-loop-statements
+					for (const item of iterable) {
+						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+						count >= amount ? yield item : (count += 1n);
+					}
+					// eslint-disable-next-line functional/no-conditional-statements
+				} else {
+					yield* iterable;
+				}
+			},
+	)(
+		iterable =>
+			async function* () {
+				// eslint-disable-next-line functional/no-let
+				let count = 0n;
 
-						// eslint-disable-next-line functional/no-conditional-statements
-						if (amount > 0) {
-							// eslint-disable-next-line functional/no-loop-statements
-							for await (const item of iterable as AsyncIterable<unknown>) {
-								// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-								count >= amount ? yield item : (count += 1n);
-							}
-							// eslint-disable-next-line functional/no-conditional-statements
-						} else {
-							yield* iterable as AsyncIterable<unknown>;
-						}
-				  },
-		) as GeneratorOutput<Iterable>;
+				// eslint-disable-next-line functional/no-conditional-statements
+				if (amount > 0) {
+					// eslint-disable-next-line functional/no-loop-statements
+					for await (const item of iterable) {
+						// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+						count >= amount ? yield item : (count += 1n);
+					}
+					// eslint-disable-next-line functional/no-conditional-statements
+				} else {
+					yield* iterable;
+				}
+			},
+	) as <Iterable extends AsynchronousIterable>(
+		iterable: Iterable,
+	) => GeneratorOutput<Iterable>;
