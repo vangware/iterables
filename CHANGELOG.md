@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 -   This project adheres to [Semantic Versioning][semver].
 -   This project uses [Gitmoji][gitmoji]
 
+## 3.0.0
+
+-   ⬆️ dependency upgrade.
+-   🚚 rename `handleAsynchronousIterable` to `handleIsomorphicIterable`.
+-   🚚 rename `handleCurriedAsynchronousIterable` to
+    `handleCurriedIsomorphicIterable`.
+-   🚚 rename `AsynchronousGeneratorFunction` to `IsomorphicGeneratorFunction`.
+-   ✨ add new `ReadOnlyAsyncIterable` type.
+-   ✨ add new `ReadOnlyAsyncIterableIterator` type.
+-   ✨ add new `ReadOnlyAsyncIterator` type.
+-   ✨ add new `ReadOnlyIterable` type.
+-   ✨ add new `ReadOnlyIterableIterator` type.
+-   ✨ add new `ReadOnlyIterator` type.
+-   ✨ add new `ReducerOutput` type.
+-   🏗 change `repeat` to take amount first.
+
 ## 2.3.0
 
 -   ⬆️ dependency upgrade.

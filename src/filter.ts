@@ -1,5 +1,5 @@
-import type { AsynchronousIterable, Predicate } from "@vangware/types";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
@@ -20,7 +20,7 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 export const filter = <Item, Filtered extends Item>(
 	predicate: Predicate<Item, Filtered>,
 ) =>
-	handleAsynchronousIterable<Item, Filtered>(
+	handleIsomorphicIterable<Item, Filtered>(
 		iterable =>
 			function* () {
 				// eslint-disable-next-line functional/no-loop-statements
@@ -42,6 +42,6 @@ export const filter = <Item, Filtered extends Item>(
 					}
 				}
 			},
-	) as <Iterable extends AsynchronousIterable<Item>>(
+	) as <Iterable extends IsomorphicIterable<Item>>(
 		iterable: Iterable,
 	) => GeneratorOutput<Iterable>;

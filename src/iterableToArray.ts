@@ -1,5 +1,6 @@
-import type { AsynchronousIterable, ReadOnlyArray } from "@vangware/types";
+import type { IsomorphicIterable, ReadOnlyArray } from "@vangware/types";
 import { reduce } from "./reduce.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
 
 /**
  * Turns given iterable or asynchronous iterable into an array.
@@ -15,10 +16,10 @@ import { reduce } from "./reduce.js";
 export const iterableToArray = reduce(item => (array: ReadOnlyArray) => [
 	...array,
 	item,
-])([]) as <Iterable extends AsynchronousIterable>(
+])([]) as <Iterable extends IsomorphicIterable>(
 	iterable: Iterable,
-) => Iterable extends AsynchronousIterable<infer Item>
-	? Iterable extends AsyncIterable<Item>
+) => Iterable extends IsomorphicIterable<infer Item>
+	? Iterable extends ReadOnlyAsyncIterable<Item>
 		? Promise<ReadOnlyArray<Item>>
 		: ReadOnlyArray<Item>
 	: never;

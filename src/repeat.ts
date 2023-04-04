@@ -7,18 +7,27 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @category Generators
  * @example
  * ```typescript
- * const repeatFoo = repeat("foo");
- * repeatFoo(3); // ["foo", "foo", "foo"]
+ * const repeat3Times = repeat(3);
+ * repeat3Times("foo"); // ["foo", "foo", "foo"]
  * ```
  * @param item Item to repeat.
  * @returns Curried function with `item` in context.
  */
 export const repeat =
-	<Item>(item: Item) =>
 	(times: bigint | number) =>
+	<Item>(item: Item) =>
 		createIterableIterator(function* () {
-			// eslint-disable-next-line functional/no-let, functional/no-loop-statements
-			for (let count = 0n; count < times; count += 1n) {
-				yield item;
+			// eslint-disable-next-line functional/no-conditional-statements
+			if (times === Infinity) {
+				// eslint-disable-next-line functional/no-loop-statements, @typescript-eslint/no-unnecessary-condition
+				while (true) {
+					yield item;
+				}
+				// eslint-disable-next-line functional/no-conditional-statements
+			} else {
+				// eslint-disable-next-line functional/no-let, functional/no-loop-statements
+				for (let count = 0n; count < times; count += 1n) {
+					yield item;
+				}
 			}
 		});

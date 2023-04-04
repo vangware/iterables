@@ -1,5 +1,8 @@
-import type { AsynchronousIterable, Unary } from "@vangware/types";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import type { IsomorphicIterable, Unary } from "@vangware/types";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Map for iterables and asynchronous iterables.
@@ -16,7 +19,7 @@ import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
  * @returns Generator function with `mapper` function set in context.
  */
 export const map = <Item, MappedItem>(mapper: Unary<Item, MappedItem>) =>
-	handleAsynchronousIterable<Item, MappedItem>(
+	handleIsomorphicIterable<Item, MappedItem>(
 		iterable =>
 			function* () {
 				// eslint-disable-next-line functional/no-loop-statements
@@ -32,8 +35,8 @@ export const map = <Item, MappedItem>(mapper: Unary<Item, MappedItem>) =>
 					yield mapper(item);
 				}
 			},
-	) as <Iterable extends AsynchronousIterable<Item>>(
+	) as <Iterable extends IsomorphicIterable<Item>>(
 		iterable: Iterable,
-	) => Iterable extends AsyncIterable<Item>
-		? AsyncIterableIterator<MappedItem>
-		: IterableIterator<MappedItem>;
+	) => Iterable extends ReadOnlyAsyncIterable<Item>
+		? ReadOnlyAsyncIterableIterator<MappedItem>
+		: ReadOnlyIterableIterator<MappedItem>;

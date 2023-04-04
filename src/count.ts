@@ -1,4 +1,4 @@
-import type { AsynchronousIterable, Predicate } from "@vangware/types";
+import type { IsomorphicIterable, Predicate } from "@vangware/types";
 import { filter } from "./filter.js";
 import { length } from "./length.js";
 
@@ -21,6 +21,6 @@ export const count = <Item, Predicated extends Item>(
 ) => {
 	const predicateFilter = filter(predicate);
 
-	return <Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+	return <Iterable extends IsomorphicIterable<Item>>(iterable: Iterable) =>
 		length(predicateFilter(iterable));
 };
