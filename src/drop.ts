@@ -1,5 +1,5 @@
-import type { AsynchronousIterable } from "@vangware/types";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import type { IsomorphicIterable } from "@vangware/types";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
@@ -16,7 +16,7 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @returns Curried function with `amount` in context.
  */
 export const drop = (amount: bigint | number) =>
-	handleAsynchronousIterable(
+	handleIsomorphicIterable(
 		iterable =>
 			function* () {
 				// eslint-disable-next-line functional/no-let
@@ -52,6 +52,6 @@ export const drop = (amount: bigint | number) =>
 					yield* iterable;
 				}
 			},
-	) as <Iterable extends AsynchronousIterable>(
+	) as <Iterable extends IsomorphicIterable>(
 		iterable: Iterable,
 	) => GeneratorOutput<Iterable>;

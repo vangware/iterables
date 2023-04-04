@@ -1,5 +1,5 @@
-import type { AsynchronousIterable, Maybe } from "@vangware/types";
-import { maybePromiseHandler } from "@vangware/utils";
+import type { IsomorphicIterable, Maybe } from "@vangware/types";
+import { awaitableHandler } from "@vangware/utils";
 import { reduce } from "./reduce.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -19,12 +19,12 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  */
 export const join =
 	(separator: string) =>
-	<Iterable extends AsynchronousIterable>(iterable: Iterable) =>
-		maybePromiseHandler((string: Maybe<string>) => string ?? "")(
+	<Iterable extends IsomorphicIterable>(iterable: Iterable) =>
+		awaitableHandler((string: Maybe<string>) => string ?? "")(
 			reduce<string, Maybe<string>>(
 				item => string =>
 					`${string ?? ""}${
 						string !== undefined ? separator : ""
 					}${item}`,
-			)(undefined)(iterable as AsynchronousIterable<string>),
+			)(undefined)(iterable as IsomorphicIterable<string>),
 		) as ReducerOutput<Iterable, string>;

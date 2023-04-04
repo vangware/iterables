@@ -1,5 +1,5 @@
 import { is } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
 import { some } from "./some.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -18,6 +18,6 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  */
 export const includes = <SearchItem>(searchItem: SearchItem) =>
 	// FIXME: Looks like we need HKT for this -_-
-	some(is(searchItem)) as <Iterable extends AsynchronousIterable>(
+	some(is(searchItem)) as <Iterable extends IsomorphicIterable>(
 		iterable: Iterable,
 	) => ReducerOutput<Iterable, boolean>;

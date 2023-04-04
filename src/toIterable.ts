@@ -3,8 +3,12 @@ import {
 	isIterable,
 	isObject,
 } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
 import { createIterableIterator } from "./createIterableIterator.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterable } from "./types/ReadOnlyIterable.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Takes a value, iterable or asynchronous iterable and yields it.
@@ -32,8 +36,8 @@ export const toIterable = <ValueOrIterable>(valueOrIterable: ValueOrIterable) =>
 						? yield* valueOrIterable
 						: yield valueOrIterable;
 			  },
-	) as ValueOrIterable extends AsynchronousIterable<infer Item>
-		? Item extends AsyncIterable<Item>
-			? AsyncIterableIterator<Item>
-			: IterableIterator<Item>
-		: Iterable<ValueOrIterable>;
+	) as ValueOrIterable extends IsomorphicIterable<infer Item>
+		? Item extends ReadOnlyAsyncIterable<Item>
+			? ReadOnlyAsyncIterableIterator<Item>
+			: ReadOnlyIterableIterator<Item>
+		: ReadOnlyIterable<ValueOrIterable>;

@@ -1,6 +1,9 @@
 import { isAsyncIterable } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
+import type { Function, IsomorphicIterable, Unary } from "@vangware/types";
 import { createIterableIterator } from "./createIterableIterator.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Takes a generator for iterables, then a generator for async iterables and
@@ -9,7 +12,7 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @category Common
  * @example
  * ```typescript
- * const handle = handleCurriedAsynchronousIterable(
+ * const handle = handleCurriedIsomorphicIterable(
  * 	iterable2 => iterable1 => function* () {
  * 		yield* iterable2;
  * 		yield* iterable1;
@@ -27,20 +30,24 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @param iterator Function to be used with non async iterables.
  * @returns Curried function with iterator in context.
  */
-export const handleCurriedAsynchronousIterable =
+export const handleCurriedIsomorphicIterable =
 	<Iterable2Item = unknown, Iterable1Item = unknown, Output = unknown>(
-		iterator: (
-			iterable2: Iterable<Iterable2Item>,
-		) => (
-			iterable1: Iterable<Iterable1Item>,
-		) => () => Generator<Output, void, void>,
+		iterator: Unary<
+			Iterable<Iterable2Item>,
+			Unary<
+				Iterable<Iterable1Item>,
+				Function<never, Generator<Output, void, void>>
+			>
+		>,
 	) =>
 	(
-		asyncIterator: (
-			iterable2: AsynchronousIterable<Iterable2Item>,
-		) => (
-			iterable1: AsynchronousIterable<Iterable1Item>,
-		) => () => AsyncGenerator<Output, void, void>,
+		asyncIterator: Unary<
+			IsomorphicIterable<Iterable2Item>,
+			Unary<
+				IsomorphicIterable<Iterable1Item>,
+				Function<never, AsyncGenerator<Output, void, void>>
+			>
+		>,
 	) =>
 		(iterable2 => {
 			const asyncGenerator2 = asyncIterator(iterable2);
@@ -58,12 +65,12 @@ export const handleCurriedAsynchronousIterable =
 							: generator2(iterable1),
 					);
 			}
-		}) as <Iterable2 extends AsynchronousIterable<Iterable2Item>>(
+		}) as <Iterable2 extends IsomorphicIterable<Iterable2Item>>(
 			iterable2: Iterable2,
-		) => <Iterable1 extends AsynchronousIterable<Iterable1Item>>(
+		) => <Iterable1 extends IsomorphicIterable<Iterable1Item>>(
 			iterable1: Iterable1,
-		) => Iterable2 extends AsyncIterable<Iterable2Item>
-			? AsyncIterableIterator<Output>
-			: Iterable1 extends AsyncIterable<Iterable1Item>
-			? AsyncIterableIterator<Output>
-			: IterableIterator<Output>;
+		) => Iterable2 extends ReadOnlyAsyncIterable<Iterable2Item>
+			? ReadOnlyAsyncIterableIterator<Output>
+			: Iterable1 extends ReadOnlyAsyncIterable<Iterable1Item>
+			? ReadOnlyAsyncIterableIterator<Output>
+			: ReadOnlyIterableIterator<Output>;

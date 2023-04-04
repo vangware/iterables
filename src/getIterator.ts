@@ -1,5 +1,8 @@
 import { isIterable } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterator } from "./types/ReadOnlyAsyncIterator.js";
+import type { ReadOnlyIterator } from "./types/ReadOnlyIterator.js";
 
 /**
  * Get a `Symbol.iterator` from an iterable or a `Symbol.asyncIterator` from an
@@ -17,15 +20,15 @@ import type { AsynchronousIterable } from "@vangware/types";
  * @param iterable Iterable to get the iterator from.
  * @returns Iterator instance.
  */
-export const getIterator = <Iterable extends AsynchronousIterable>(
+export const getIterator = <Iterable extends IsomorphicIterable>(
 	iterable: Iterable,
 ) =>
 	(iterable as AsyncIterable<unknown>)[
 		Symbol[
 			isIterable(iterable) ? "iterator" : "asyncIterator"
 		] as keyof AsyncIterable<unknown>
-	]() as Iterable extends AsynchronousIterable<infer Item>
-		? Iterable extends AsyncIterable<Item>
-			? AsyncIterator<Item, Item, Item>
-			: Iterator<Item, Item, Item>
+	]() as Iterable extends IsomorphicIterable<infer Item>
+		? Iterable extends ReadOnlyAsyncIterable<Item>
+			? ReadOnlyAsyncIterator<Item, Item, Item>
+			: ReadOnlyIterator<Item, Item, Item>
 		: never;

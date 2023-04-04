@@ -1,4 +1,4 @@
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
 import { append } from "./append.js";
 
 /**
@@ -14,8 +14,8 @@ import { append } from "./append.js";
  * @returns Curried generator function with `initialIterable` set in context.
  */
 export const prepend =
-	<InitialIterable extends AsynchronousIterable>(
+	<InitialIterable extends IsomorphicIterable>(
 		initialIterable: InitialIterable,
 	) =>
-	<TailIterable extends AsynchronousIterable>(tailIterable: TailIterable) =>
+	<TailIterable extends IsomorphicIterable>(tailIterable: TailIterable) =>
 		append(tailIterable)(initialIterable);

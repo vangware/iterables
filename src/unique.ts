@@ -1,5 +1,5 @@
-import type { AsynchronousIterable } from "@vangware/types";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import type { IsomorphicIterable } from "@vangware/types";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
@@ -14,7 +14,7 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @param iterable Iterable to be filtered.
  * @returns Generators with a single instance of each item of the iterable.
  */
-export const unique = handleAsynchronousIterable(
+export const unique = handleIsomorphicIterable(
 	iterable =>
 		function* () {
 			const set = new Set();
@@ -36,6 +36,6 @@ export const unique = handleAsynchronousIterable(
 				!set.has(item) ? (set.add(item), yield item) : undefined;
 			}
 		},
-) as <Iterable extends AsynchronousIterable>(
+) as <Iterable extends IsomorphicIterable>(
 	iterable: Iterable,
 ) => GeneratorOutput<Iterable>;

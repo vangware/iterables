@@ -1,6 +1,9 @@
-import { isAsynchronousIterable, isIterable } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import { isIsomorphicIterable, isIterable } from "@vangware/predicates";
+import type { IsomorphicIterable } from "@vangware/types";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Flattens one level of the given iterable or asynchronous iterable.
@@ -13,7 +16,7 @@ import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
  * @param iterable Iterable to flatten.
  * @returns Iterable with flatten items.
  */
-export const flat = handleAsynchronousIterable(
+export const flat = handleIsomorphicIterable(
 	iterable =>
 		function* () {
 			// eslint-disable-next-line functional/no-loop-statements
@@ -30,19 +33,19 @@ export const flat = handleAsynchronousIterable(
 			// eslint-disable-next-line functional/no-loop-statements
 			for await (const iterableOrItem of iterable) {
 				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-				isAsynchronousIterable(iterableOrItem)
+				isIsomorphicIterable(iterableOrItem)
 					? yield* iterableOrItem
 					: yield iterableOrItem;
 			}
 		},
-) as <Iterable extends AsynchronousIterable>(
+) as <Iterable extends IsomorphicIterable>(
 	iterable: Iterable,
-) => Iterable extends AsynchronousIterable<infer Item>
-	? Item extends AsynchronousIterable<infer SubItem>
-		? Item extends AsyncIterable<SubItem>
-			? AsyncIterableIterator<SubItem>
-			: IterableIterator<SubItem>
-		: Iterable extends AsyncIterable<Item>
-		? AsyncIterableIterator<Item>
-		: IterableIterator<Item>
+) => Iterable extends IsomorphicIterable<infer Item>
+	? Item extends IsomorphicIterable<infer SubItem>
+		? Item extends ReadOnlyAsyncIterable<SubItem>
+			? ReadOnlyAsyncIterableIterator<SubItem>
+			: ReadOnlyIterableIterator<SubItem>
+		: Iterable extends ReadOnlyAsyncIterable<Item>
+		? ReadOnlyAsyncIterableIterator<Item>
+		: ReadOnlyIterableIterator<Item>
 	: never;

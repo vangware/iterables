@@ -1,6 +1,9 @@
 import { isIterable } from "@vangware/predicates";
-import type { AsynchronousIterable } from "@vangware/types";
+import type { Function, IsomorphicIterable, Unary } from "@vangware/types";
 import { createIterableIterator } from "./createIterableIterator.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Takes a generator for iterables, then a generator for async iterables and
@@ -9,7 +12,7 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @category Common
  * @example
  * ```typescript
- * const handle = handleCurriedAsynchronousIterable(
+ * const handle = handleIsomorphicIterable(
  * 	iterable => function* () {
  * 		yield* iterable;
  * 	}
@@ -25,20 +28,22 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @param iterator Function to be used with non async iterables.
  * @returns Curried function with iterator in context.
  */
-export const handleAsynchronousIterable =
+export const handleIsomorphicIterable =
 	<Item = unknown, Output = unknown>(
-		iterator: (
-			iterable: Iterable<Item>,
-		) => () => Generator<Output, void, void>,
+		iterator: Unary<
+			Iterable<Item>,
+			Function<never, Generator<Output, void, void>>
+		>,
 	) =>
 	(
-		asyncIterator: (
-			iterable: AsyncIterable<Item>,
-		) => () => AsyncGenerator<Output, void, void>,
+		asyncIterator: Unary<
+			IsomorphicIterable<Item>,
+			Function<never, AsyncGenerator<Output, void, void>>
+		>,
 	) =>
-	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+	<Iterable extends IsomorphicIterable<Item>>(iterable: Iterable) =>
 		createIterableIterator(
 			isIterable(iterable) ? iterator(iterable) : asyncIterator(iterable),
-		) as Iterable extends AsyncIterable<Item>
-			? AsyncIterableIterator<Output>
-			: IterableIterator<Output>;
+		) as Iterable extends ReadOnlyAsyncIterable<Item>
+			? ReadOnlyAsyncIterableIterator<Output>
+			: ReadOnlyIterableIterator<Output>;

@@ -1,4 +1,4 @@
-import type { AsynchronousIterable, Predicate } from "@vangware/types";
+import type { IsomorphicIterable, Predicate } from "@vangware/types";
 import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -39,6 +39,6 @@ export const every = <Item, Predicated extends Item = Item>(
 		}
 
 		return true;
-	}) as <Iterable extends AsynchronousIterable<Item>>(
+	}) as <Iterable extends IsomorphicIterable<Item>>(
 		iterable: Iterable,
 	) => ReducerOutput<Iterable, boolean>;
