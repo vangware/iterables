@@ -1,4 +1,4 @@
-import type { AsynchronousIterable, Unary } from "@vangware/types";
+import type { IsomorphicIterable, Unary } from "@vangware/types";
 import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -26,6 +26,6 @@ export const forEach = <Item>(callback: Unary<Item, void>) =>
 		for await (const item of iterable) {
 			callback(item);
 		}
-	}) as <Iterable extends AsynchronousIterable<Item>>(
+	}) as <Iterable extends IsomorphicIterable<Item>>(
 		iterable: Iterable,
 	) => ReducerOutput<Iterable, void>;

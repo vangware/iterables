@@ -25,10 +25,14 @@ export const groupBy = <Item, Key extends PropertyKey>(
 	reduce((item: Item) => {
 		const group = grouper(item);
 
-		return (groups: ReadOnlyRecord<Maybe<ReadOnlyArray<Item>>, Key>) =>
+		return (groups: ReadOnlyRecord<Key, Maybe<ReadOnlyArray<Item>>>) =>
 			({
 				...groups,
-				[group]: [...(groups[group] ?? []), item],
-			} as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
+				[group]: [
+					...((groups[group as keyof typeof groups] ??
+						[]) as ReadOnlyArray<Item>),
+					item,
+				],
+			} as ReadOnlyRecord<Key, ReadOnlyArray<Item>>);
 		// eslint-disable-next-line no-null/no-null
-	})(Object.create(null) as ReadOnlyRecord<ReadOnlyArray<Item>, Key>);
+	})(Object.create(null) as ReadOnlyRecord<Key, ReadOnlyArray<Item>>);

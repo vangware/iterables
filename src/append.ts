@@ -1,5 +1,8 @@
-import type { AsynchronousIterable } from "@vangware/types";
-import { handleCurriedAsynchronousIterable } from "./handleCurriedAsynchronousIterable.js";
+import type { IsomorphicIterable } from "@vangware/types";
+import { handleCurriedIsomorphicIterable } from "./handleCurriedIsomorphicIterable.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Appends one iterable or asynchronous iterable to another.
@@ -15,7 +18,7 @@ import { handleCurriedAsynchronousIterable } from "./handleCurriedAsynchronousIt
  * @param tailIterable Iterable or asynchronous to be appended.
  * @returns Curried generator function with `tailIterable` set in context.
  */
-export const append = handleCurriedAsynchronousIterable(
+export const append = handleCurriedIsomorphicIterable(
 	tailIterable => initialIterable =>
 		function* () {
 			yield* initialIterable;
@@ -27,16 +30,16 @@ export const append = handleCurriedAsynchronousIterable(
 			yield* initialIterable;
 			yield* tailIterable;
 		},
-) as <TailIterable extends AsynchronousIterable>(
+) as <TailIterable extends IsomorphicIterable>(
 	tailIterable: TailIterable,
-) => <InitialIterable extends AsynchronousIterable>(
+) => <InitialIterable extends IsomorphicIterable>(
 	initialIterable: InitialIterable,
-) => TailIterable extends AsynchronousIterable<infer TailItem>
-	? InitialIterable extends AsynchronousIterable<infer InitialItem>
-		? TailIterable extends AsyncIterable<TailItem>
-			? AsyncIterableIterator<InitialItem | TailItem>
-			: InitialIterable extends AsyncIterable<InitialItem>
-			? AsyncIterableIterator<InitialItem | TailItem>
-			: IterableIterator<InitialItem | TailItem>
+) => TailIterable extends IsomorphicIterable<infer TailItem>
+	? InitialIterable extends IsomorphicIterable<infer InitialItem>
+		? TailIterable extends ReadOnlyAsyncIterable<TailItem>
+			? ReadOnlyAsyncIterableIterator<InitialItem | TailItem>
+			: InitialIterable extends ReadOnlyAsyncIterable<InitialItem>
+			? ReadOnlyAsyncIterableIterator<InitialItem | TailItem>
+			: ReadOnlyIterableIterator<InitialItem | TailItem>
 		: never
 	: never;

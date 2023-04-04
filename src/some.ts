@@ -1,9 +1,9 @@
-import type { AsynchronousIterable, Predicate } from "@vangware/types";
-import { maybePromiseHandler } from "@vangware/utils";
+import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import { awaitableHandler } from "@vangware/utils";
 import { every } from "./every.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
-const someHandler = maybePromiseHandler((result: boolean) => !result);
+const someHandler = awaitableHandler((result: boolean) => !result);
 
 /**
  * Evaluates items in an iterable or asynchronous iterable against a predicate
@@ -24,7 +24,7 @@ export const some = <Item, Predicated extends Item = Item>(
 ) => {
 	const everyPredicate = every<Item>(item => !predicate(item));
 
-	return <Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) =>
+	return <Iterable extends IsomorphicIterable<Item>>(iterable: Iterable) =>
 		someHandler(everyPredicate(iterable)) as ReducerOutput<
 			Iterable,
 			boolean

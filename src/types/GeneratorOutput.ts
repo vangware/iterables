@@ -1,12 +1,26 @@
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
+import type { ReadOnlyAsyncIterable } from "./ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./ReadOnlyIterableIterator.js";
 
 /**
- * `AsynchronousIterable` generator function optional return value.
+ * `IsomorphicIterable` generator function optional return value.
+ *
+ * @category Generators
+ * @remarks
+ * Generator functions in this library can return either an
+ * {@link ReadOnlyAsyncIterableIterator} or an {@link ReadOnlyIterableIterator}
+ * depending on the input. This type simplifies the output of said functions.
+ * @see {@link ReadOnlyAsyncIterable}
+ * @see {@link ReadOnlyAsyncIterableIterator}
+ * @see {@link ReadOnlyIterableIterator}
+ *
+ * @template Iterable `IsomorphicIterable` to get the output from.
  */
-export type GeneratorOutput<Iterable> = Iterable extends AsynchronousIterable<
+export type GeneratorOutput<Iterable> = Iterable extends IsomorphicIterable<
 	infer Item
 >
-	? Iterable extends AsyncIterable<Item>
-		? AsyncIterableIterator<Item>
-		: IterableIterator<Item>
+	? Iterable extends ReadOnlyAsyncIterable<Item>
+		? ReadOnlyAsyncIterableIterator<Item>
+		: ReadOnlyIterableIterator<Item>
 	: never;

@@ -1,5 +1,9 @@
 import { isIterable } from "@vangware/predicates";
-import type { AsynchronousGeneratorFunction } from "./types/AsynchronousGeneratorFunction.js";
+import type { Function } from "@vangware/types";
+import type { IsomorphicGeneratorFunction } from "./types/IsomorphicGeneratorFunction.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyAsyncIterator } from "./types/ReadOnlyAsyncIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Takes a generator function and returns an iterable iterator or asynchronous
@@ -27,7 +31,7 @@ import type { AsynchronousGeneratorFunction } from "./types/AsynchronousGenerato
  * @returns Iterable iterator object.
  */
 export const createIterableIterator = <
-	GeneratorFunction extends AsynchronousGeneratorFunction,
+	GeneratorFunction extends IsomorphicGeneratorFunction,
 >(
 	generatorFunction: GeneratorFunction,
 ) => {
@@ -37,9 +41,9 @@ export const createIterableIterator = <
 		...generator,
 		[Symbol[isIterable(generator) ? "iterator" : "asyncIterator"]]:
 			generatorFunction,
-	} as GeneratorFunction extends AsynchronousGeneratorFunction<infer Item>
-		? GeneratorFunction extends () => AsyncIterator<Item>
-			? AsyncIterableIterator<Item>
-			: IterableIterator<Item>
+	} as GeneratorFunction extends IsomorphicGeneratorFunction<infer Item>
+		? GeneratorFunction extends Function<never, ReadOnlyAsyncIterator<Item>>
+			? ReadOnlyAsyncIterableIterator<Item>
+			: ReadOnlyIterableIterator<Item>
 		: never;
 };

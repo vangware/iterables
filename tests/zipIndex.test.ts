@@ -23,7 +23,7 @@ export default [
 	{
 		given: "an iterable of strings",
 		must: "return Iterable of tuples with indexes and strings",
-		received: () => iterableToArray(zipIndex(repeat("foo")(2))),
+		received: () => iterableToArray(zipIndex(repeat(2)("foo"))),
 		wanted: () => [
 			[0, "foo"],
 			[1, "foo"],

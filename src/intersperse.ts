@@ -1,4 +1,4 @@
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
 import { flat } from "./flat.js";
 import { initial } from "./initial.js";
 import { repeat } from "./repeat.js";
@@ -18,8 +18,8 @@ import { zip } from "./zip.js";
  * @returns Curried function with `separator` in context.
  */
 export const intersperse = <Separator>(separator: Separator) => {
-	const repeatSeparator = repeat(separator)(Infinity);
+	const repeatSeparator = repeat(Infinity)(separator);
 
-	return <Item>(iterable: AsynchronousIterable<Item>) =>
+	return <Item>(iterable: IsomorphicIterable<Item>) =>
 		initial(flat(zip(iterable)(repeatSeparator)));
 };

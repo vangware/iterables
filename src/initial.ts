@@ -1,11 +1,12 @@
 import type {
-	AsynchronousIterable,
 	Initial,
+	IsomorphicIterable,
 	ReadOnlyArray,
 } from "@vangware/types";
 import { getIterator } from "./getIterator.js";
-import { handleAsynchronousIterable } from "./handleAsynchronousIterable.js";
+import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Get all elements except the last one of an iterable or asynchronous iterable.
@@ -18,7 +19,7 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @param iterable Iterable to get the items from.
  * @returns Iterable with all items except the last one.
  */
-export const initial = handleAsynchronousIterable(
+export const initial = handleIsomorphicIterable(
 	iterable =>
 		function* () {
 			const iterator = getIterator(iterable);
@@ -58,8 +59,8 @@ export const initial = handleAsynchronousIterable(
 				Object.assign(item, next);
 			}
 		},
-) as <Iterable extends AsynchronousIterable>(
+) as <Iterable extends IsomorphicIterable>(
 	iterable: Iterable,
 ) => Iterable extends ReadOnlyArray
-	? IterableIterator<Initial<Iterable>[number]>
+	? ReadOnlyIterableIterator<Initial<Iterable>[number]>
 	: GeneratorOutput<Iterable>;

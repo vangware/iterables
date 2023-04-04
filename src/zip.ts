@@ -1,6 +1,9 @@
-import type { AsynchronousIterable } from "@vangware/types";
+import type { IsomorphicIterable } from "@vangware/types";
 import { getIterator } from "./getIterator.js";
-import { handleCurriedAsynchronousIterable } from "./handleCurriedAsynchronousIterable.js";
+import { handleCurriedIsomorphicIterable } from "./handleCurriedIsomorphicIterable.js";
+import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
+import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
+import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
  * Takes two iterables or asynchronous iterable and returns a new iterable or
@@ -16,7 +19,7 @@ import { handleCurriedAsynchronousIterable } from "./handleCurriedAsynchronousIt
  * @param iterableFirst One of the iterables to be zipped.
  * @returns Curried function with `iterableFirst` in context.
  */
-export const zip = handleCurriedAsynchronousIterable(
+export const zip = handleCurriedIsomorphicIterable(
 	iterableFirst => iterableSecond =>
 		function* () {
 			const iteratorSecond = getIterator(iterableSecond);
@@ -50,16 +53,16 @@ export const zip = handleCurriedAsynchronousIterable(
 				yield [itemA, value] as const;
 			}
 		},
-) as <FirstIterable extends AsynchronousIterable>(
+) as <FirstIterable extends IsomorphicIterable>(
 	iterableFirst: FirstIterable,
-) => <SecondIterable extends AsynchronousIterable>(
+) => <SecondIterable extends IsomorphicIterable>(
 	iterableSecond: SecondIterable,
-) => FirstIterable extends AsynchronousIterable<infer FirstItem>
-	? SecondIterable extends AsynchronousIterable<infer SecondItem>
-		? FirstIterable extends AsyncIterable<FirstItem>
-			? AsyncIterableIterator<readonly [FirstItem, SecondItem]>
-			: SecondIterable extends AsyncIterable<SecondItem>
-			? AsyncIterableIterator<readonly [FirstItem, SecondItem]>
-			: IterableIterator<readonly [FirstItem, SecondItem]>
+) => FirstIterable extends IsomorphicIterable<infer FirstItem>
+	? SecondIterable extends IsomorphicIterable<infer SecondItem>
+		? FirstIterable extends ReadOnlyAsyncIterable<FirstItem>
+			? ReadOnlyAsyncIterableIterator<readonly [FirstItem, SecondItem]>
+			: SecondIterable extends ReadOnlyAsyncIterable<SecondItem>
+			? ReadOnlyAsyncIterableIterator<readonly [FirstItem, SecondItem]>
+			: ReadOnlyIterableIterator<readonly [FirstItem, SecondItem]>
 		: never
 	: never;

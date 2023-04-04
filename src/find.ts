@@ -1,4 +1,4 @@
-import type { AsynchronousIterable, Maybe, Unary } from "@vangware/types";
+import type { IsomorphicIterable, Maybe, Unary } from "@vangware/types";
 import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -37,6 +37,6 @@ export const find = <Item>(predicate: Unary<Item, boolean>) =>
 		}
 
 		return undefined;
-	}) as <Iterable extends AsynchronousIterable<Item>>(
+	}) as <Iterable extends IsomorphicIterable<Item>>(
 		iterable: Iterable,
 	) => ReducerOutput<Iterable, Maybe<Item>>;

@@ -1,9 +1,9 @@
 import type {
-	AsynchronousIterable,
-	AsynchronousIterableItem,
 	Entry,
 	EntryKey,
 	EntryValue,
+	IsomorphicIterable,
+	IsomorphicIterableItem,
 	ReadOnlyRecord,
 } from "@vangware/types";
 import { reduce } from "./reduce.js";
@@ -25,17 +25,17 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  */
 export const entriesToObject = reduce(
 	<Key extends PropertyKey, Value>([key, value]: Entry<Key, Value>) =>
-		(object: ReadOnlyRecord<Value, Key>) =>
-			({ ...object, [key]: value } as ReadOnlyRecord<Value, Key>),
+		(object: ReadOnlyRecord<Key, Value>) =>
+			({ ...object, [key]: value } as ReadOnlyRecord<Key, Value>),
 	// eslint-disable-next-line no-null/no-null
 )(Object.create(null) as ReadOnlyRecord) as <
-	Iterable extends AsynchronousIterable<Entry>,
+	Iterable extends IsomorphicIterable<Entry>,
 >(
 	iterable: Iterable,
 ) => ReducerOutput<
 	Iterable,
 	ReadOnlyRecord<
-		EntryValue<AsynchronousIterableItem<Iterable>>,
-		EntryKey<AsynchronousIterableItem<Iterable>>
+		EntryKey<IsomorphicIterableItem<Iterable>>,
+		EntryValue<IsomorphicIterableItem<Iterable>>
 	>
 >;

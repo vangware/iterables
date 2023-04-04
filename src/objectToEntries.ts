@@ -16,22 +16,25 @@ import { createIterableIterator } from "./createIterableIterator.js";
  * @returns Iterable with entries of the given object (including symbols).
  */
 export const objectToEntries = <Key extends PropertyKey, Value>(
-	input: ReadOnlyRecord<Value, Key>,
+	input: ReadOnlyRecord<Key, Value>,
 ) =>
 	createIterableIterator(function* () {
 		// eslint-disable-next-line functional/no-loop-statements
 		for (const key in input) {
 			// eslint-disable-next-line functional/no-conditional-statements
 			if (Object.hasOwn(input, key)) {
-				yield [key, input[key]] as Entry<Key, Value>;
+				yield [key, input[key]] as Entry<
+					Extract<keyof ReadOnlyRecord<Key, Value>, string>,
+					Value
+				>;
 			}
 		}
 
 		// eslint-disable-next-line functional/no-loop-statements
 		for (const symbolKey of Object.getOwnPropertySymbols(input)) {
-			yield [symbolKey as Key, input[symbolKey as Key]] as Entry<
-				Key,
-				Value
-			>;
+			yield [
+				symbolKey as Key,
+				input[symbolKey as keyof ReadOnlyRecord<Key, Value>],
+			] as Entry<Key, Value>;
 		}
 	});

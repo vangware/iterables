@@ -1,5 +1,5 @@
-import type { AsynchronousIterable, Reducer } from "@vangware/types";
-import { maybePromiseHandler } from "@vangware/utils";
+import type { IsomorphicIterable, Reducer } from "@vangware/types";
+import { awaitableHandler } from "@vangware/utils";
 import { forEach } from "./forEach.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -20,11 +20,11 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
 export const reduce =
 	<Item, Accumulator>(reducer: Reducer<Item, Accumulator>) =>
 	(initialValue: Accumulator) =>
-	<Iterable extends AsynchronousIterable<Item>>(iterable: Iterable) => {
+	<Iterable extends IsomorphicIterable<Item>>(iterable: Iterable) => {
 		// eslint-disable-next-line functional/no-let
 		let accumulator: Accumulator = initialValue;
 
-		return maybePromiseHandler(_ => accumulator)(
+		return awaitableHandler(_ => accumulator)(
 			forEach((item: Item) => (accumulator = reducer(item)(accumulator)))(
 				iterable,
 			),

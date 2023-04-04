@@ -1,9 +1,5 @@
-import type {
-	AsynchronousIterable,
-	Head,
-	ReadOnlyArray,
-} from "@vangware/types";
-import { maybePromiseHandler } from "@vangware/utils";
+import type { Head, IsomorphicIterable, ReadOnlyArray } from "@vangware/types";
+import { awaitableHandler } from "@vangware/utils";
 import { getIterator } from "./getIterator.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
@@ -19,10 +15,8 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @param iterable Iterable to get the first element from.
  * @returns First element of the iterable (`undefined` if empty).
  */
-export const head = <Iterable extends AsynchronousIterable>(
-	iterable: Iterable,
-) =>
-	maybePromiseHandler(
+export const head = <Iterable extends IsomorphicIterable>(iterable: Iterable) =>
+	awaitableHandler(
 		({
 			value,
 		}: Readonly<Pick<IteratorResult<unknown, unknown>, "value">>) => value,
