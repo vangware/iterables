@@ -1,13 +1,8 @@
-import {
-	hasAsyncIteratorSymbol,
-	isIterable,
-	isObject,
-} from "@vangware/predicates";
+import { isAsyncIterable, isIterable } from "@vangware/predicates";
 import type { IsomorphicIterable } from "@vangware/types";
 import { createIterableIterator } from "./createIterableIterator.js";
 import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
 import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
-import type { ReadOnlyIterable } from "./types/ReadOnlyIterable.js";
 import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.js";
 
 /**
@@ -21,14 +16,22 @@ import type { ReadOnlyIterableIterator } from "./types/ReadOnlyIterableIterator.
  * iterator.next(); // { value: 1, done: false }
  * iterator.next(); // { value: undefined, done: true }
  * ```
+ * @see {@link createIterableIterator}
+ * @see {@link ReadOnlyAsyncIterable}
+ * @see {@link ReadOnlyAsyncIterableIterator}
+ * @see {@link ReadOnlyIterableIterator}
+ *
+ * @template ValueOrIterable Generic of value or iterable to yield.
  * @param valueOrIterable Vale or iterable to yield.
  * @returns Yielded item or iterable.
  */
-export const toIterable = <ValueOrIterable>(valueOrIterable: ValueOrIterable) =>
+export const toIterable = <const ValueOrIterable>(
+	valueOrIterable: ValueOrIterable,
+) =>
 	createIterableIterator(
-		isObject(valueOrIterable) && hasAsyncIteratorSymbol(valueOrIterable)
+		isAsyncIterable(valueOrIterable)
 			? async function* () {
-					yield* valueOrIterable as AsyncIterable<unknown>;
+					yield* valueOrIterable;
 			  }
 			: function* () {
 					// eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -40,4 +43,4 @@ export const toIterable = <ValueOrIterable>(valueOrIterable: ValueOrIterable) =>
 		? Item extends ReadOnlyAsyncIterable<Item>
 			? ReadOnlyAsyncIterableIterator<Item>
 			: ReadOnlyIterableIterator<Item>
-		: ReadOnlyIterable<ValueOrIterable>;
+		: ReadOnlyIterableIterator<ValueOrIterable>;
