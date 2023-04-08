@@ -3,5 +3,5 @@
 	"cname": "iterables.vangware.com",
 	"entryPoints": ["./src"],
 	"extends": ["@vangware/configs/typedoc.json"],
-	"name": "@vangware/iterables"
+	"name": "Iterables by Vangware"
 }
