@@ -29,4 +29,4 @@ export default [
 			[1, "foo"],
 		],
 	},
-] as Tests<ReadOnlyArray<readonly [number, unknown]>>;
+] satisfies Tests<ReadOnlyArray<readonly [number, unknown]>>;

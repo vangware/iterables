@@ -34,4 +34,4 @@ export default [
 		received: () => iterableToArray(filterOdds(array)),
 		wanted: () => [0, 2],
 	},
-] as Tests<ReadOnlyArray<number>>;
+] satisfies Tests<ReadOnlyArray<number>>;

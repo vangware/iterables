@@ -34,4 +34,4 @@ export default [
 		received: () => iterableToArray(mapDouble(asyncIterateArray(array))),
 		wanted: () => [0, 2, 4, 6],
 	},
-] as Tests<ReadOnlyArray<number>>;
+] satisfies Tests<ReadOnlyArray<number>>;

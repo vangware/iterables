@@ -25,4 +25,4 @@ export default [
 			),
 		wanted: () => ({ even: [0, 2], odd: [1, 3] }),
 	},
-] as Tests;
+] satisfies Tests;

@@ -61,4 +61,4 @@ export default [
 		received: () => someNumber(asyncIterateArray(["foo", "bar"])),
 		wanted: () => false,
 	},
-] as Tests<boolean>;
+] satisfies Tests<boolean>;

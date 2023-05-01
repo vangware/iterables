@@ -1,7 +1,12 @@
-import type { Head, IsomorphicIterable, ReadOnlyArray } from "@vangware/types";
+import type {
+	Head,
+	IsomorphicIterable,
+	IsomorphicIterableItem,
+	Maybe,
+	ReadOnlyArray,
+} from "@vangware/types";
 import { awaitableHandler } from "@vangware/utils";
 import { getIterator } from "./getIterator.js";
-import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
 /**
  * Get first element of an iterable or asynchronous iterable (`undefined` if
@@ -22,4 +27,4 @@ export const head = <Iterable extends IsomorphicIterable>(iterable: Iterable) =>
 		}: Readonly<Pick<IteratorResult<unknown, unknown>, "value">>) => value,
 	)(getIterator(iterable).next()) as Iterable extends ReadOnlyArray
 		? Head<Iterable>
-		: GeneratorOutput<Iterable>;
+		: Maybe<IsomorphicIterableItem<Iterable>>;

@@ -2,7 +2,8 @@ import type { Tests } from "@vangware/test";
 import { getIterator } from "../src/getIterator.js";
 import { asyncIterateArray } from "./utils.js";
 
-const array = [0, 1, 2];
+const array = [0, 1, 2] as const;
+const asyncArray = asyncIterateArray(array);
 
 export default [
 	{
@@ -14,7 +15,7 @@ export default [
 	{
 		given: "an async iterable array",
 		must: "return array's async iterator",
-		received: () => getIterator(asyncIterateArray(array)),
-		wanted: () => asyncIterateArray(array)[Symbol.asyncIterator](),
+		received: () => getIterator(asyncArray),
+		wanted: () => asyncArray[Symbol.asyncIterator](),
 	},
-] as Tests<AsyncIterableIterator<unknown> | Iterator<unknown>>;
+] satisfies Tests;

@@ -36,4 +36,4 @@ export default [
 		received: () => length(asyncIterateArray([])),
 		wanted: () => 0,
 	},
-] as Tests<number>;
+] satisfies Tests<number>;

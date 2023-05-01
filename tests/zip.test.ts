@@ -49,7 +49,7 @@ export default [
 		received: () => iterableToArray(zipFooBar(asyncIterateArray(["baz"]))),
 		wanted: () => [["foo", "baz"]],
 	},
-] as Tests<
+] satisfies Tests<
 	| ReadOnlyArray<readonly [string, number]>
 	| ReadOnlyArray<readonly [string, string]>
 >;

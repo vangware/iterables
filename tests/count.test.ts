@@ -54,4 +54,4 @@ export default [
 		received: () => countAll(asyncIterateArray([0, 1, 2, 3, 4])),
 		wanted: () => 5,
 	},
-] as Tests<number>;
+] satisfies Tests<number>;

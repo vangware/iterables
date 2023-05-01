@@ -61,4 +61,4 @@ export default [
 			[2, 3],
 		],
 	},
-] as Tests<ReadOnlyArray<ReadOnlyArray<number> | number>>;
+] satisfies Tests<ReadOnlyArray<ReadOnlyArray<number> | number>>;

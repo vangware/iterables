@@ -45,4 +45,4 @@ export default [
 		received: () => head(asyncIterateArray([])),
 		wanted: () => undefined,
 	},
-] as Tests<Maybe<number>>;
+] satisfies Tests<Maybe<number>>;

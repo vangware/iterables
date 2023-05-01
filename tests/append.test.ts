@@ -34,4 +34,4 @@ export default [
 			iterableToArray(appendNumbers(asyncIterateArray(["foo", "bar"]))),
 		wanted: () => ["foo", "bar", 0, 1, 2, 3, 4],
 	},
-] as Tests<ReadOnlyArray<number | string>>;
+] satisfies Tests<ReadOnlyArray<number | string>>;

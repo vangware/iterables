@@ -4,7 +4,7 @@ import { find } from "../src/find.js";
 import { asyncIterateArray, iterateArray } from "./utils.js";
 
 const findString = find(
-	(value: unknown): value is string => typeof value === "string",
+	(value: number | string): value is string => typeof value === "string",
 );
 
 export default [
@@ -44,4 +44,4 @@ export default [
 		received: () => findString(asyncIterateArray([0, 1, 2])),
 		wanted: () => undefined,
 	},
-] as Tests<Maybe<string>>;
+] satisfies Tests<Maybe<number | string>>;

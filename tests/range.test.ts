@@ -51,4 +51,4 @@ export default [
 		received: () => iterableToArray(rangeFrom0n(11n)),
 		wanted: () => [0n, 2n, 4n, 6n, 8n, 10n],
 	},
-] as Tests<ReadOnlyArray<bigint | number>>;
+] satisfies Tests<ReadOnlyArray<bigint | number>>;
