@@ -43,4 +43,4 @@ export default [
 		received: () => iterableToArray(unique(asyncIterateArray([]))),
 		wanted: () => [],
 	},
-] as Tests<ReadonlyArray<number>>;
+] satisfies Tests<ReadonlyArray<number>>;

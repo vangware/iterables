@@ -48,4 +48,4 @@ export default [
 			iterableToArray(dropAll(asyncIterateArray([0, 1, 2, 3, 4]))),
 		wanted: () => [],
 	},
-] as Tests<ReadOnlyArray<number>>;
+] satisfies Tests<ReadOnlyArray<number>>;

@@ -69,4 +69,4 @@ export default [
 			entriesToObject(asyncIterateArray([[symbolKey, value] as const])),
 		wanted: () => ({ [symbolKey]: value }),
 	},
-] as Tests<ReadOnlyRecord<string, string>>;
+] satisfies Tests<ReadOnlyRecord<string, string>>;

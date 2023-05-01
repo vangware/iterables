@@ -45,4 +45,4 @@ export default [
 		received: () => everyNumbers(asyncIterateArray([0, 1, 2, "foo", 3])),
 		wanted: () => false,
 	},
-] as Tests<boolean>;
+] satisfies Tests<boolean>;

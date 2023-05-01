@@ -12,4 +12,4 @@ export default [
 		received: () => sumFrom0([1, 2, 3]),
 		wanted: () => 6,
 	},
-] as Tests<number>;
+] satisfies Tests<number>;

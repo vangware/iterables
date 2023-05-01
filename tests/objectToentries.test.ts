@@ -40,4 +40,4 @@ export default [
 		received: () => iterableToArray(objectToEntries({ [symbol]: "🟢" })),
 		wanted: () => [[symbol, "🟢"]],
 	},
-] as Tests<ReadOnlyArray>;
+] satisfies Tests<ReadOnlyArray>;

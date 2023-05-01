@@ -11,4 +11,4 @@ export default [
 		received: () => iterableToArray(repeat3Times("test")),
 		wanted: () => ["test", "test", "test"],
 	},
-] as Tests<ReadonlyArray<string>>;
+] satisfies Tests<ReadonlyArray<string>>;

@@ -40,4 +40,4 @@ export default [
 			iterableToArray(commaIntersperse(asyncIterateArray([]))),
 		wanted: () => [],
 	},
-] as Tests<ReadOnlyArray<number | string>>;
+] satisfies Tests<ReadOnlyArray<number | string>>;

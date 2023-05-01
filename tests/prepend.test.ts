@@ -12,4 +12,4 @@ export default [
 		received: () => iterableToArray(prependNumbers(["foo", "bar"])),
 		wanted: () => [0, 1, 2, 3, 4, "foo", "bar"],
 	},
-] as Tests<ReadOnlyArray<number | string>>;
+] satisfies Tests<ReadOnlyArray<number | string>>;

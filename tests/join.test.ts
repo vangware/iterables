@@ -54,4 +54,4 @@ export default [
 		received: () => spaceJoin(asyncIterateArray([])),
 		wanted: () => "",
 	},
-] as Tests<string>;
+] satisfies Tests<string>;
