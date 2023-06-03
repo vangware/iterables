@@ -1,5 +1,10 @@
 import { isAsyncIterable } from "@vangware/predicates";
-import type { Function, IsomorphicIterable, Unary } from "@vangware/types";
+import type {
+	Function,
+	IsomorphicIterable,
+	ReadOnlyArray,
+	Unary,
+} from "@vangware/types";
 import { createIterableIterator } from "./createIterableIterator.js";
 import type { ReadOnlyAsyncIterable } from "./types/ReadOnlyAsyncIterable.js";
 import type { ReadOnlyAsyncIterableIterator } from "./types/ReadOnlyAsyncIterableIterator.js";
@@ -36,7 +41,7 @@ export const handleCurriedIsomorphicIterable =
 			Iterable<Iterable2Item>,
 			Unary<
 				Iterable<Iterable1Item>,
-				Function<never, Generator<Output, void, void>>
+				Function<ReadOnlyArray<never>, Generator<Output, void, void>>
 			>
 		>,
 	) =>
@@ -45,7 +50,10 @@ export const handleCurriedIsomorphicIterable =
 			IsomorphicIterable<Iterable2Item>,
 			Unary<
 				IsomorphicIterable<Iterable1Item>,
-				Function<never, AsyncGenerator<Output, void, void>>
+				Function<
+					ReadOnlyArray<never>,
+					AsyncGenerator<Output, void, void>
+				>
 			>
 		>,
 	) =>

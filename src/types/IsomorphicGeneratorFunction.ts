@@ -1,4 +1,4 @@
-import type { Function } from "@vangware/types";
+import type { Function, ReadOnlyArray } from "@vangware/types";
 import type { createIterableIterator } from "../createIterableIterator.js";
 import type { ReadOnlyAsyncIterator } from "./ReadOnlyAsyncIterator.js";
 import type { ReadOnlyIterator } from "./ReadOnlyIterator.js";
@@ -17,6 +17,6 @@ import type { ReadOnlyIterator } from "./ReadOnlyIterator.js";
  * @template Item Type of the items in the iterator or asynchronous iterator.
  */
 export type IsomorphicGeneratorFunction<Item = unknown> = Function<
-	never,
+	ReadOnlyArray<never>,
 	ReadOnlyAsyncIterator<Item> | ReadOnlyIterator<Item>
 >;

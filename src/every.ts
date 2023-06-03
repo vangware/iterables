@@ -1,4 +1,9 @@
-import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import type {
+	IsomorphicIterable,
+	Predicate,
+	Single,
+	Unary,
+} from "@vangware/types";
 import { whenIsIterable } from "@vangware/utils";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
 
@@ -16,8 +21,10 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
  * @param predicate Predicate function to evaluate each item.
  * @returns Curried function with `predicate` set in context.
  */
-export const every = <Item, Predicated extends Item = Item>(
-	predicate: Predicate<Item, Predicated>,
+export const every = <Item, Predicated extends Item = never>(
+	predicate: Single<Predicated> extends Single<never>
+		? Unary<Item, boolean>
+		: Predicate<Item, Predicated>,
 ) =>
 	whenIsIterable(iterable => {
 		// eslint-disable-next-line functional/no-loop-statements

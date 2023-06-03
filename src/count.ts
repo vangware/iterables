@@ -1,4 +1,4 @@
-import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import type { Filter, IsomorphicIterable } from "@vangware/types";
 import { filter } from "./filter.js";
 import { length } from "./length.js";
 
@@ -16,9 +16,7 @@ import { length } from "./length.js";
  * @param predicate Predicate function for items to be counted.
  * @returns Curried function with `predicate` in context.
  */
-export const count = <Item, Predicated extends Item>(
-	predicate: Predicate<Item, Predicated>,
-) => {
+export const count = <Item>(predicate: Filter<Item>) => {
 	const predicateFilter = filter(predicate);
 
 	return <Iterable extends IsomorphicIterable<Item>>(iterable: Iterable) =>

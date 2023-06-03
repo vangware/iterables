@@ -1,4 +1,9 @@
-import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import type {
+	IsomorphicIterable,
+	Predicate,
+	Single,
+	Unary,
+} from "@vangware/types";
 import { awaitableHandler } from "@vangware/utils";
 import { every } from "./every.js";
 import type { ReducerOutput } from "./types/ReducerOutput.js";
@@ -19,8 +24,10 @@ const someHandler = awaitableHandler((result: boolean) => !result);
  * @param predicate Predicate function to evaluate each item.
  * @returns Curried function with `predicate` set in context.
  */
-export const some = <Item, Predicated extends Item = Item>(
-	predicate: Predicate<Item, Predicated>,
+export const some = <Item, Predicated extends Item = never>(
+	predicate: Single<Predicated> extends Single<never>
+		? Unary<Item, boolean>
+		: Predicate<Item, Predicated>,
 ) => {
 	const everyPredicate = every<Item>(item => !predicate(item));
 
