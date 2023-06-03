@@ -1,4 +1,9 @@
-import type { IsomorphicIterable, Predicate } from "@vangware/types";
+import type {
+	IsomorphicIterable,
+	Predicate,
+	Single,
+	Unary,
+} from "@vangware/types";
 import { handleIsomorphicIterable } from "./handleIsomorphicIterable.js";
 import type { GeneratorOutput } from "./types/GeneratorOutput.js";
 
@@ -17,8 +22,10 @@ import type { GeneratorOutput } from "./types/GeneratorOutput.js";
  * @param predicate Predicate function to evaluate each item.
  * @returns Curried function with `predicate` set in context.
  */
-export const filter = <Item, Filtered extends Item>(
-	predicate: Predicate<Item, Filtered>,
+export const filter = <Item, Filtered extends Item = never>(
+	predicate: Single<Filtered> extends Single<never>
+		? Unary<Item, boolean>
+		: Predicate<Item, Filtered>,
 ) =>
 	handleIsomorphicIterable<Item, Filtered>(
 		iterable =>
@@ -27,7 +34,7 @@ export const filter = <Item, Filtered extends Item>(
 				for (const item of iterable) {
 					// eslint-disable-next-line functional/no-conditional-statements
 					if (predicate(item)) {
-						yield item;
+						yield item as Filtered;
 					}
 				}
 			},
@@ -38,7 +45,7 @@ export const filter = <Item, Filtered extends Item>(
 				for await (const item of iterable) {
 					// eslint-disable-next-line functional/no-conditional-statements
 					if (predicate(item)) {
-						yield item;
+						yield item as Filtered;
 					}
 				}
 			},
