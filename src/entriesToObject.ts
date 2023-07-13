@@ -26,7 +26,7 @@ import type { ReducerOutput } from "./types/ReducerOutput.js";
 export const entriesToObject = reduce(
 	<Key extends PropertyKey, Value>([key, value]: Entry<Key, Value>) =>
 		(object: ReadOnlyRecord<Key, Value>) =>
-			({ ...object, [key]: value } as ReadOnlyRecord<Key, Value>),
+			({ ...object, [key]: value }) as ReadOnlyRecord<Key, Value>,
 	// eslint-disable-next-line no-null/no-null
 )(Object.create(null) as ReadOnlyRecord) as <
 	Iterable extends IsomorphicIterable<Entry>,
