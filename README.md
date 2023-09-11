@@ -22,11 +22,11 @@ yarn add @vangware/iterables
 Import it and use it:
 
 ```typescript
-import { map } from "@vangware/iterables";
+import { iterableToArray, map } from "@vangware/iterables";
 
 const mapDouble = map((value: number) => value * 2);
 
-[...mapDouble([1, 2, 3])]; // [2, 4, 6]
+iterableToArray(mapDouble([1, 2, 3])); // [2, 4, 6]
 ```
 
 ### 🦕 Deno
@@ -34,11 +34,11 @@ const mapDouble = map((value: number) => value * 2);
 Import `@vangware/iterables` using the `npm:` prefix, and use it directly:
 
 ```typescript
-import { map } from "npm:@vangware/iterables";
+import { iterableToArray, map } from "npm:@vangware/iterables";
 
 const mapDouble = map((value: number) => value * 2);
 
-[...mapDouble([1, 2, 3])]; // [2, 4, 6]
+iterableToArray(mapDouble([1, 2, 3])); // [2, 4, 6]
 ```
 
 ### 🌎 Browser
@@ -47,11 +47,11 @@ Import `@vangware/iterables` using [esm.sh][esm.sh], and use it directly:
 
 ```html
 <script type="module">
-	import { map } from "https://esm.sh/@vangware/iterables";
+	import { iterableToArray, map } from "https://esm.sh/@vangware/iterables";
 
 	const mapDouble = map(value => value * 2);
 
-	[...mapDouble([1, 2, 3])]; // [2, 4, 6]
+	iterableToArray(mapDouble([1, 2, 3])); // [2, 4, 6]
 </script>
 ```
 
