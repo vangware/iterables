@@ -1,71 +1,105 @@
 # Change log
 
-All notable changes to this project will be documented in this file.
+## 3.1.16
 
--   This project adheres to [Semantic Versioning][semver].
--   This project uses [Gitmoji][gitmoji]
+### Patch Changes
+
+-   ⬆️ dependency upgrade.
+-   📝 update `CHANGELOG.md`.
 
 ## 3.1.15
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.14
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.13
+
+### Patch Changes
 
 -   📝 update `README.md`.
 
 ## 3.1.12
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.11
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.10
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.9
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.8
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.7
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.6
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.5
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.4
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.3
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.1.2
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.1
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.1.0
+
+### Minor Changes
 
 -   🏗️ some changes in `count`, `every`, `filter`, `some`,
     `handleCurriedIsomorphicIterable`, `handleIsomorphicIterable` and
@@ -74,25 +108,37 @@ All notable changes to this project will be documented in this file.
 
 ## 3.0.12
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.0.11
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.0.10
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.0.9
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.0.8
 
+### Patch Changes
+
 -   🔧 back to `node@>=20` babyyyy!
 
 ## 3.0.7
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 -   🔧 update `engines` to suggest `node@>=19` and `pnpm@>=8`.
@@ -100,32 +146,46 @@ All notable changes to this project will be documented in this file.
 
 ## 3.0.6
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   📝 update `README.md`.
 
 ## 3.0.5
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.0.4
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 3.0.3
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 3.0.2
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 -   🔧 docs are now generated in CI.
 
 ## 3.0.1
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   🏗 update `toIterable` types an util usage.
 
 ## 3.0.0
+
+### Major Changes
 
 -   ⬆️ dependency upgrade.
 -   🚚 rename `handleAsynchronousIterable` to `handleIsomorphicIterable`.
@@ -142,6 +202,8 @@ All notable changes to this project will be documented in this file.
 -   🏗 change `repeat` to take amount first.
 
 ## 2.3.0
+
+### Minor Changes
 
 -   ⬆️ dependency upgrade.
 -   ✨ add new `handleAsynchronousIterable` util for internal use mainly (takes
@@ -165,13 +227,19 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.10
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.9
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.8
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 -   🔥 remove `.editorconfig`.
@@ -179,86 +247,124 @@ All notable changes to this project will be documented in this file.
 
 ## 2.2.7
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   🚨 lint fixes.
 -   🔧 update CI configs.
 
 ## 2.2.6
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.5
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 -   ✏️ fix typo in `package.json`.
 
 ## 2.2.4
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.3
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 2.2.2
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.1
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.2.0
+
+### Minor Changes
 
 -   ⬆️ dependency upgrade.
 -   🏗 some changes here and there using `@vangware/utils`.
 
 ## 2.1.8
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   📝 update `CHANGELOG.md` to use emojis instead of aliases.
 
 ## 2.1.7
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.1.6
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 2.1.5
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.1.4
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.1.3
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 -   🔧 add `"sideEffects": false` to `package.json`.
 
 ## 2.1.2
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   📝 update docs.
 
 ## 2.1.1
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 2.1.0
+
+### Minor Changes
 
 -   ⬆️ dependency upgrade.
 -   ✨ add `zipIndex` util.
 
 ## 2.0.2
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 -   ✅ update test for latest `@vangware/test`.
 
 ## 2.0.1
+
+### Patch Changes
 
 -   🐛 fix bad import.
 -   🏗 improve `iterableToArray` so is smaller.
@@ -266,6 +372,8 @@ All notable changes to this project will be documented in this file.
 -   🏗 improve `groupBy` to reduce into an object with no prototype.
 
 ## 2.0.0
+
+### Major Changes
 
 -   ⬆️ dependency upgrade.
 -   🔥 remove all asynchronous utils (the regular utils handle the async cases
@@ -276,21 +384,18 @@ All notable changes to this project will be documented in this file.
 
 ## 1.0.3
 
+### Patch Changes
+
 -   ⬆️ dependency upgrade.
 
 ## 1.0.2
+
+### Patch Changes
 
 -   ⬆️ dependency upgrade.
 
 ## 1.0.1
 
+### Patch Changes
+
 -   🐛 fix bug with `join` returning `undefined`.
-
-## 1.0.0
-
--   🎉 Initial commit.
-
-<!-- References -->
-
-[gitmoji]: https://gitmoji.dev/
-[semver]: https://semver.org/
