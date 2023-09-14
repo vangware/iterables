@@ -1,3 +1,5 @@
+# This repository's code was moved to [this monorepo](https://github.com/vangware/libraries/tree/main/packages/@vangware/iterables).
+
 <img id="logo" alt="Iterables by Vangware" src="./logo.svg" height="128" />
 
 ![Coverage][coverage-badge] ![License][license-badge]
